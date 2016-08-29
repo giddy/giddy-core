@@ -63,7 +63,7 @@ public class GiddyFlagEncoder extends BikeFlagEncoder {
         if (speed < 0)
             throw new IllegalArgumentException("Speed cannot be negative: " + speed + ", flags:" + BitUtil.LITTLE.toBitString(flags));
 
-        if (speed < speedEncoder.factor / 2)
+        if (speed < speedEncoder.getMaxValue() / 2)
             return setLowSpeed(flags, speed, true);
 
         if (speed > getMaxSpeed())

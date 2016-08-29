@@ -23,7 +23,7 @@ public class GiddyHopper extends GraphHopper {
 
         if ("BLOCKING".equalsIgnoreCase(weighting))
         {
-            SafeEdgesWeighting w = new SafeEdgesWeighting(encoder);
+            SafeEdgesWeighting w = new SafeEdgesWeighting(super.createWeighting(weightingMap, encoder));
             w.addEdges(forbiddenEdges);
             return w;
         } else

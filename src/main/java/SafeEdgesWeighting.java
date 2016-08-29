@@ -1,12 +1,9 @@
 import com.graphhopper.routing.util.AbstractAdjustedWeighting;
-import com.graphhopper.routing.util.FlagEncoder;
-import com.graphhopper.routing.util.HintsMap;
 import com.graphhopper.routing.util.Weighting;
 import com.graphhopper.util.EdgeIteratorState;
 import gnu.trove.set.TIntSet;
 import gnu.trove.set.hash.TIntHashSet;
 
-import java.util.Collection;
 import java.util.Set;
 
 /**
@@ -19,10 +16,12 @@ public class SafeEdgesWeighting extends AbstractAdjustedWeighting
 
     private double edgePenaltyFactor = 5.0;
 
-    public SafeEdgesWeighting(FlagEncoder superWeighting)
+    public SafeEdgesWeighting(Weighting superWeighting)
     {
         super(superWeighting);
     }
+
+
 
     public SafeEdgesWeighting setEdgePenaltyFactor(double edgePenaltyFactor )
     {
@@ -44,12 +43,14 @@ public class SafeEdgesWeighting extends AbstractAdjustedWeighting
     public double getMinWeight( double distance )
     {
         // TODO
+        return 0;
     }
 
     @Override
     public double calcWeight( EdgeIteratorState edgeState, boolean reverse, int prevOrNextEdgeId )
     {
         // TODO
+        return 0;
     }
 
     @Override
