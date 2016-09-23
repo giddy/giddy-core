@@ -2,6 +2,12 @@
 
 Routing Library using Graphhopper
 
+## IDE Setup
+
+1. Get the styleguides from here for your ide: 
+https://github.com/google/styleguide
+2. Install them.
+
 ## Installation
 
 1. Install [Gradle](https://gradle.org/gradle-download/).

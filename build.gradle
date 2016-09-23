@@ -13,6 +13,11 @@ buildscript {
 apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'spring-boot'
+apply plugin: 'checkstyle'
+
+checkstyle {
+    toolVersion = '7.1.1'
+}
 
 jar {
 	baseName = 'giddy-core'
@@ -34,6 +39,6 @@ dependencies {
 
 	// https://mvnrepository.com/artifact/org.jsondoc/jsondoc-ui-webjar
 	compile group: 'org.jsondoc', name: 'jsondoc-ui-webjar', version: '1.2.16'
-	
+
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 }
