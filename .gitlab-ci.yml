@@ -1,0 +1,4 @@
+image: frekele/gradle
+
+build:
+  script: "gradle build"
