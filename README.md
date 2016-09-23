@@ -23,6 +23,11 @@ For IntelliJ:
 
 TODO: Write usage instructions
 
+
+## JSONDoc
+
+You can go to http://localhost:8080/jsondoc-ui.html, insert http://localhost:8080/jsondoc in the box and get the documentation.
+
 ## Contributing
 
 1. Fork it!
