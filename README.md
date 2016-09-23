@@ -4,14 +4,20 @@ Routing Library using Graphhopper
 
 ## IDE Setup
 
-1. Get the styleguides from here for your ide: 
-https://github.com/google/styleguide
+1. Get the styleguides from here for your ide: [Google Style Guides](https://github.com/google/styleguide)
 2. Install them.
+
+For IntelliJ:
+
+0. [Download](https://raw.githubusercontent.com/google/styleguide/gh-pages/intellij-java-google-style.xml)
+1. Preferences -> Editor -> Code Style -> Manage 
+2. Import 'IntelliJ IDEA Code Style XML' 
+3. After importing select it from the list -> press 'Copy to project'
 
 ## Installation
 
 1. Install [Gradle](https://gradle.org/gradle-download/).
-2. ` gradle build` to create the jar.
+2. `/gradlew build` to create the jar.
 
 ## Usage
 
