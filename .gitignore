@@ -1,10 +1,13 @@
-# Gradle
-# ------
 .gradle
-/build
-/buildSrc/build
-/subprojects/*/build
-/subprojects/docs/src/samples/*/*/build
+/build/
+!gradle/wrapper/gradle-wrapper.jar
+
+### STS ###
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
 
 # IDEA
 # ----
@@ -71,3 +74,4 @@ atlassian-ide-plugin.xml
 # Logs
 # ----
 /*.log
+.nb-gradle/
