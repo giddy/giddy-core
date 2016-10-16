@@ -14,10 +14,11 @@ For IntelliJ:
 2. Import 'IntelliJ IDEA Code Style XML' 
 3. After importing select it from the list -> press 'Copy to project'
 
-## Installation
+## Build
 
 1. Install [Gradle](https://gradle.org/gradle-download/).
-2. `/gradlew build` to create the jar.
+2. `./gradlew -q downloadMap` to download the pbf file.
+3. `/gradlew build` to create the jar.
 
 ## Usage
 

@@ -11,6 +11,7 @@ public class GiddyCoreApplicationTests {
 
 	@Test
 	public void contextLoads() {
+		String var = "Some string";
 	}
 
 }

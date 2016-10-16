@@ -21,8 +21,12 @@ checkstyle {
 
 jar {
 	baseName = 'giddy-core'
-	version = '0.0.1-SNAPSHOT'
+	version = '0.0.2-SNAPSHOT'
+    from('.pbf/') {
+        include '*.pbf'
+    }
 }
+
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
@@ -40,5 +44,12 @@ dependencies {
 	// https://mvnrepository.com/artifact/org.jsondoc/jsondoc-ui-webjar
 	compile group: 'org.jsondoc', name: 'jsondoc-ui-webjar', version: '1.2.16'
 
+	// https://mvnrepository.com/artifact/com.graphhopper/graphhopper
+	compile group: 'com.graphhopper', name: 'graphhopper', version: '0.7.0'
+
 	testCompile('org.springframework.boot:spring-boot-starter-test')
+}
+
+task downloadMap(type:Exec) {
+    commandLine './giddy.sh'
 }
