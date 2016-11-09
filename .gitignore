@@ -75,3 +75,7 @@ atlassian-ide-plugin.xml
 # ----
 /*.log
 .nb-gradle/
+
+# Giddy
+.pbfs/
+.graphs/

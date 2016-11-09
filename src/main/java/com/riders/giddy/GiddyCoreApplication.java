@@ -12,13 +12,12 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @EnableJSONDoc
 public class GiddyCoreApplication {
 
-    /**
-     * TODO Add javadoc.
-     *
-     * @param args Something
-     */
+ /**
+  * TODO Add javadoc.
+  * @param args Something
+  */
 
-    public static void main(final String[] args) {
-        SpringApplication.run(GiddyCoreApplication.class, args);
-    }
+ public static void main(final String[] args) {
+  SpringApplication.run(GiddyCoreApplication.class, args);
+ }
 }

@@ -20,9 +20,15 @@ checkstyle {
 }
 
 jar {
-    baseName = 'giddy-core'
-    version = '0.0.1-SNAPSHOT'
+	baseName = 'giddy-core'
+	version = '0.0.2-SNAPSHOT'
+    from('.pbf/') {
+        include '*.pbf'
+    }
 }
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
 
 repositories {
     mavenCentral()
@@ -38,11 +44,17 @@ dependencies {
     // https://mvnrepository.com/artifact/org.jsondoc/jsondoc-ui-webjar
     compile group: 'org.jsondoc', name: 'jsondoc-ui-webjar', version: '1.2.16'
 
-    compile (group: 'com.graphhopper', name: 'graphhopper', version: '0.1'){
-        exclude group: 'org.slf4j'
-    }
-
     compile 'org.springframework.data:spring-data-mongodb:1.9.4.RELEASE'
 
     testCompile('org.springframework.boot:spring-boot-starter-test')
+	// https://mvnrepository.com/artifact/com.graphhopper/graphhopper
+	compile group: 'com.graphhopper', name: 'graphhopper', version: '0.7.0'{
+        exclude group: 'org.slf4j'
+    }
+
+	testCompile('org.springframework.boot:spring-boot-starter-test')
+}
+
+task downloadMap(type:Exec) {
+    commandLine './giddy.sh'
 }
