@@ -22,20 +22,14 @@ import java.util.List;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class SessionRouteSaveTest {
 
-
-    private final SessionRouteRepository sessionRouteRepository;
-
-    private final PathRepository pathRepository;
-
-    private final MongoTemplate template;
-
+    @Autowired
+    private SessionRouteRepository sessionRouteRepository;
 
     @Autowired
-    public SessionRouteSaveTest(SessionRouteRepository sessionRouteRepository, PathRepository pathRepository, MongoTemplate template) {
-        this.sessionRouteRepository = sessionRouteRepository;
-        this.pathRepository = pathRepository;
-        this.template = template;
-    }
+    private PathRepository pathRepository;
+
+    @Autowired
+    private MongoTemplate template;
 
     @Before
     public void setUp() {

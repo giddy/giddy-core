@@ -8,25 +8,26 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 
-/**
- * Created by rik on 10/16/16.
- */
 @Service
 public class GiddyHopper extends GraphHopper {
 
- @Value("${city}") // found in src/main/resources/application.properties
- private String CITY;
+    @Value("${city}") // found in src/main/resources/application.properties
+    private String CITY;
 
- EncodingManager appEncoder;
+    @Value("${download_osm_map}")
+    private boolean DOWNLOAD_MAP;
 
- @PostConstruct
- public void initialize() {
+    private EncodingManager appEncoder;
 
-  this.setOSMFile("./.pbfs/" + CITY + ".osm.pbf");
-  this.setGraphHopperLocation("./.graphs/graph_" + CITY);
-  appEncoder = new EncodingManager("car,bike,foot");
-  this.setEncodingManager(appEncoder);
+    @PostConstruct
+    public void initialize() {
 
-  this.importOrLoad();
- }
+        this.setOSMFile("./.pbfs/" + CITY + ".osm.pbf");
+        this.setGraphHopperLocation("./.graphs/graph_" + CITY);
+        appEncoder = new EncodingManager("car,bike,foot");
+        this.setEncodingManager(appEncoder);
+        if (DOWNLOAD_MAP) {
+            this.importOrLoad();
+        }
+    }
 }

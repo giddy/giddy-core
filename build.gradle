@@ -48,7 +48,7 @@ dependencies {
 
     testCompile('org.springframework.boot:spring-boot-starter-test')
 	// https://mvnrepository.com/artifact/com.graphhopper/graphhopper
-	compile group: 'com.graphhopper', name: 'graphhopper', version: '0.7.0'{
+    compile(group: 'com.graphhopper', name: 'graphhopper', version: '0.7.0') {
         exclude group: 'org.slf4j'
     }
 
