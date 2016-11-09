@@ -1,6 +1,5 @@
 package com.riders.giddy.commons.models;
 
-import com.mongodb.client.model.geojson.Point;
 import com.mongodb.client.model.geojson.Position;
 
 import org.springframework.data.annotation.Id;

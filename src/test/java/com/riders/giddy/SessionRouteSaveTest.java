@@ -1,15 +1,11 @@
 package com.riders.giddy;
 
-import com.mongodb.client.model.geojson.Point;
-import com.mongodb.client.model.geojson.Position;
 import com.riders.giddy.commons.models.Descriptor;
-import com.riders.giddy.commons.models.Location;
 import com.riders.giddy.commons.models.Path;
 import com.riders.giddy.commons.models.SessionRoute;
 import com.riders.giddy.commons.persistence.PathRepository;
 import com.riders.giddy.commons.persistence.SessionRouteRepository;
 
-import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -20,22 +16,26 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.index.GeospatialIndex;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class SessionRouteSaveTest {
 
-    @Autowired
-    SessionRouteRepository sessionRouteRepository;
+
+    private final SessionRouteRepository sessionRouteRepository;
+
+    private final PathRepository pathRepository;
+
+    private final MongoTemplate template;
+
 
     @Autowired
-    PathRepository pathRepository;
-
-    @Autowired
-    MongoTemplate template;
+    public SessionRouteSaveTest(SessionRouteRepository sessionRouteRepository, PathRepository pathRepository, MongoTemplate template) {
+        this.sessionRouteRepository = sessionRouteRepository;
+        this.pathRepository = pathRepository;
+        this.template = template;
+    }
 
     @Before
     public void setUp() {
@@ -66,4 +66,6 @@ public class SessionRouteSaveTest {
         List<SessionRoute> sessionRoutes = sessionRouteRepository.findAll();
         Assert.assertEquals(2, sessionRoutes.size());
     }
+
+
 }

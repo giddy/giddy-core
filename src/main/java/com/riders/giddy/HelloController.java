@@ -1,6 +1,5 @@
 package com.riders.giddy;
 
-import com.riders.giddy.commons.models.SessionRoute;
 import com.riders.giddy.commons.persistence.SessionRouteRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,8 +9,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class HelloController {
 
+    private final SessionRouteRepository repository;
+
     @Autowired
-    SessionRouteRepository repository;
+    public HelloController(SessionRouteRepository repository) {
+        this.repository = repository;
+    }
 
     @RequestMapping("/")
     public String index() {
