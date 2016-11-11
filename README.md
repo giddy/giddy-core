@@ -14,6 +14,16 @@ For IntelliJ:
 2. Import 'IntelliJ IDEA Code Style XML' 
 3. After importing select it from the list -> press 'Copy to project'
 
+## Gitlab CI locally
+  
+    docker-machine start
+    eval $(docker-machine env default)
+    docker run -d --name gitlab-runner --restart always \
+               -v /srv/gitlab-runner/config:/etc/gitlab-runner \
+               gitlab/gitlab-runner:latest
+    gitlab-ci-multi-runner exec docker build
+
+  
 ## Build
 
 1. Install [Gradle](https://gradle.org/gradle-download/).

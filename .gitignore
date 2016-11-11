@@ -79,3 +79,4 @@ atlassian-ide-plugin.xml
 # Giddy
 .pbfs/
 .graphs/
+classes/
