@@ -7,7 +7,6 @@ buildscript {
     }
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
-        classpath("com.sourcemuse.gradle.plugin:gradle-mongo-plugin:0.13.0")
     }
 }
 
@@ -15,7 +14,6 @@ apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'spring-boot'
 apply plugin: 'checkstyle'
-apply plugin: 'mongo'
 
 checkstyle {
     toolVersion = '7.1.1'
@@ -53,6 +51,7 @@ dependencies {
         exclude group: 'org.slf4j'
     }
 
+    testCompile group: "de.flapdoodle.embed", name: "de.flapdoodle.embed.mongo", version: "1.50.3"
     testCompile('org.springframework.boot:spring-boot-starter-test')
 }
 

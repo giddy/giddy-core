@@ -1,4 +1,7 @@
 image: frekele/gradle
 
+services:
+  - mongo
+
 build:
-  script: "gradle build"
+  script: "gradle clean build"
