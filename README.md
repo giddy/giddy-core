@@ -33,13 +33,23 @@ For IntelliJ:
 
 ## Deploy
 
-1. Deploy env was configured using this tutorial [DigitalOcean](https://www.digitalocean.com/community/tutorials/how-to-use-git-hooks-to-automate-development-and-deployment-tasks).
+1. Deploy env was configured using this tutorial [DigitalOcean](https://www.digitalocean.com/community/tutorials/how-to-use-git-hooks-to-automate-development-and-deployment-tasks). NGINX was used for proxy `nano /etc/nginx/sites-enabled/default` to see the configuration.
 
 
     #One time only
     git remote add production deployer@139.59.154.14:giddy-core
     #When you want to deploy
     git push production master
+
+2. `ssh root@139.59.154.14`
+3. `cd /home/deployer/giddy-core-production`
+4. `gradle assemble`
+5. `service giddy-core restart`
+6. (Optional) `nano /etc/systemd/system/giddy-core.service` Change the executable jar location.
+
+[About Installing Spring Boot applications](http://docs.spring.io/spring-boot/docs/current/reference/html/deployment-install.html)
+
+#TODO This needs to happen automatically
 
 ## Usage
 
