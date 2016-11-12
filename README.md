@@ -10,12 +10,12 @@ Routing Library using Graphhopper
 For IntelliJ:
 
 0. [Download](https://raw.githubusercontent.com/google/styleguide/gh-pages/intellij-java-google-style.xml)
-1. Preferences -> Editor -> Code Style -> Manage 
-2. Import 'IntelliJ IDEA Code Style XML' 
+1. Preferences -> Editor -> Code Style -> Manage
+2. Import 'IntelliJ IDEA Code Style XML'
 3. After importing select it from the list -> press 'Copy to project'
 
 ## Gitlab CI locally
-  
+
     docker-machine start
     eval $(docker-machine env default)
     docker run -d --name gitlab-runner --restart always \
@@ -23,12 +23,23 @@ For IntelliJ:
                gitlab/gitlab-runner:latest
     gitlab-ci-multi-runner exec docker build
 
-  
+
 ## Build
 
 1. Install [Gradle](https://gradle.org/gradle-download/).
 2. `./gradlew -q downloadMap` to download the pbf file.
 3. `/gradlew build` to create the jar.
+
+
+## Deploy
+
+1. Deploy env was configured using this tutorial [DigitalOcean](https://www.digitalocean.com/community/tutorials/how-to-use-git-hooks-to-automate-development-and-deployment-tasks).
+
+
+    #One time only
+    git remote add production deployer@139.59.154.14:giddy-core
+    #When you want to deploy
+    git push production master
 
 ## Usage
 
