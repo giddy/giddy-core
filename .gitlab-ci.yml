@@ -5,7 +5,7 @@ services:
 
 variables:
   POSTGRES_DB: giddy
-  POSTGRES_USER: runner
+  POSTGRES_USER: ""
   POSTGRES_PASSWORD: ""
 
 cache:

@@ -84,3 +84,5 @@ classes/
 giddy-collector/build
 giddy-router/build
 giddy-router/graphs
+giddy-router/osm_files
+*.pbf

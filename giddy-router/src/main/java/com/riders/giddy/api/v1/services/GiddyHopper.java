@@ -11,9 +11,14 @@ import com.graphhopper.util.shapes.GHPoint3D;
 import com.riders.giddy.api.v1.models.GiddyGeoNode;
 import com.riders.giddy.api.v1.models.GiddyRouteRequest;
 import com.riders.giddy.api.v1.models.GiddyRouteResponse;
+import org.apache.commons.io.FileUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
+import java.io.File;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Iterator;
 
 /**
@@ -21,6 +26,8 @@ import java.util.Iterator;
  */
 @Service
 public class GiddyHopper extends GraphHopper {
+
+    private static final String PBF_DOWLOAD_FOLDER = "osm_files/";
 
     private static final String CITY = "cluj";
 
@@ -35,11 +42,20 @@ public class GiddyHopper extends GraphHopper {
      */
     @PostConstruct
     public void initialize() {
-        this.setOSMFile(PBF_URL);
-        this.setGraphHopperLocation("./graphs/graph_" + CITY);
-        appEncoder = new EncodingManager("car,bike,foot");
-        this.setEncodingManager(appEncoder);
-        this.importOrLoad();
+        try {
+            File pbfFile = new File(PBF_DOWLOAD_FOLDER + CITY+ ".osm.pbf");
+            URL pbfUrl = new URL(PBF_URL);
+            FileUtils.copyURLToFile(pbfUrl, pbfFile);
+            this.setOSMFile(pbfFile.getPath());
+            this.setGraphHopperLocation("./graphs/graph_" + CITY);
+            appEncoder = new EncodingManager("car,bike,foot");
+            this.setEncodingManager(appEncoder);
+            this.importOrLoad();
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
