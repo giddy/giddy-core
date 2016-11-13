@@ -26,6 +26,8 @@ public class GiddyHopper extends GraphHopper {
 
     private static final String VEHICLE = "bike";
 
+    private static final String PBF_URL = "https://s3.amazonaws.com/metro-extracts.mapzen.com/cluj_romania.osm.pbf";
+
     private EncodingManager appEncoder;
 
     /**
@@ -33,9 +35,8 @@ public class GiddyHopper extends GraphHopper {
      */
     @PostConstruct
     public void initialize() {
-
-        this.setOSMFile("./.pbfs/" + CITY + ".osm.pbf");
-        this.setGraphHopperLocation("./.graphs/graph_" + CITY);
+        this.setOSMFile(PBF_URL);
+        this.setGraphHopperLocation("./graphs/graph_" + CITY);
         appEncoder = new EncodingManager("car,bike,foot");
         this.setEncodingManager(appEncoder);
         this.importOrLoad();

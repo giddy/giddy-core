@@ -79,7 +79,8 @@ atlassian-ide-plugin.xml
 
 # Giddy
 .pbfs/
-.graphs/
+graphs/
 classes/
 giddy-collector/build
 giddy-router/build
+giddy-router/graphs
