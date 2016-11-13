@@ -1,5 +1,6 @@
 .gradle
-/build/
+build/
+
 !gradle/wrapper/gradle-wrapper.jar
 
 ### STS ###
@@ -80,3 +81,5 @@ atlassian-ide-plugin.xml
 .pbfs/
 .graphs/
 classes/
+giddy-collector/build
+giddy-router/build
