@@ -14,19 +14,19 @@ import javax.annotation.PostConstruct;
 @Service
 public class GiddyHopper extends GraphHopper {
 
- @Value("${city}") // found in src/main/resources/application.properties
- private String CITY;
+    @Value("${city}") // found in src/main/resources/application.properties
+    private String CITY;
 
- EncodingManager appEncoder;
+    EncodingManager appEncoder;
 
- @PostConstruct
- public void initialize() {
+    @PostConstruct
+    public void initialize() {
 
-  this.setOSMFile("./.pbfs/" + CITY + ".osm.pbf");
-  this.setGraphHopperLocation("./.graphs/graph_" + CITY);
-  appEncoder = new EncodingManager("car,bike,foot");
-  this.setEncodingManager(appEncoder);
+        this.setOSMFile("./.pbfs/" + CITY + ".osm.pbf");
+        this.setGraphHopperLocation("./.graphs/graph_" + CITY);
+        appEncoder = new EncodingManager("car,bike,foot");
+        this.setEncodingManager(appEncoder);
 
-  this.importOrLoad();
- }
+        this.importOrLoad();
+    }
 }
