@@ -21,10 +21,7 @@ checkstyle {
 
 jar {
 	baseName = 'giddy-core'
-	version = '0.1'
-    from('.pbf/') {
-        include '*.pbf'
-    }
+	version = '0.2'
 }
 
 sourceCompatibility = 1.8

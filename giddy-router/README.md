@@ -35,11 +35,12 @@ For IntelliJ:
 
 1. Deploy env was configured using this tutorial [DigitalOcean](https://www.digitalocean.com/community/tutorials/how-to-use-git-hooks-to-automate-development-and-deployment-tasks). NGINX was used for proxy `nano /etc/nginx/sites-enabled/default` to see the configuration.
 
-
+    `
     #One time only
     git remote add production deployer@139.59.154.14:giddy-core
     #When you want to deploy
     git push production master
+    `
 
 2. `ssh root@139.59.154.14`
 3. `cd /home/deployer/giddy-core-production`
