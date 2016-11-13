@@ -13,4 +13,4 @@ cache:
     - .gradle/
 
 build:
-  script: "gradle clean build --debug"
+  script: "gradle clean build"
