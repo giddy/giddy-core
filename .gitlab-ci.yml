@@ -1,4 +1,12 @@
 image: frekele/gradle
 
+services:
+  - postgres:latest
+
+variables:
+  POSTGRES_DB: giddy
+  POSTGRES_USER: runner
+  POSTGRES_PASSWORD: ""
+
 build:
   script: "gradle clean build"

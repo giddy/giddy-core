@@ -3,11 +3,11 @@ package com.riders.giddy.api.v1.models;
 /**
  * Created by rik on 11/13/16.
  */
-public class GOGeoNode {
+public class GiddyGeoNode {
     private Double latitude;
     private Double longitude;
 
-    public GOGeoNode(Double latitude, Double longitude) {
+    public GiddyGeoNode(Double latitude, Double longitude) {
         this.latitude = latitude;
         this.longitude = longitude;
     }

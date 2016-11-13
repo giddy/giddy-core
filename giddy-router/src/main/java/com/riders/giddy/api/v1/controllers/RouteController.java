@@ -1,12 +1,9 @@
 package com.riders.giddy.api.v1.controllers;
 
-import com.graphhopper.GHRequest;
-import com.graphhopper.util.shapes.GHPoint;
-import com.riders.giddy.api.v1.models.GOGeoNode;
-import com.riders.giddy.api.v1.models.GORouteRequest;
-import com.riders.giddy.api.v1.models.GORouteResponse;
+import com.riders.giddy.api.v1.models.GiddyGeoNode;
+import com.riders.giddy.api.v1.models.GiddyRouteRequest;
+import com.riders.giddy.api.v1.models.GiddyRouteResponse;
 import com.riders.giddy.api.v1.services.GiddyHopper;
-
 import org.jsondoc.core.annotation.Api;
 import org.jsondoc.core.annotation.ApiMethod;
 import org.jsondoc.core.annotation.ApiQueryParam;
@@ -31,19 +28,19 @@ public class RouteController {
     @RequestMapping("/route")
     public
     @ResponseBody
-    GORouteResponse route(@ApiQueryParam(description = "This is latitude from")
-                          @RequestParam(value = "latFrom", required = false)
-                                  double latFrom,
-                          @ApiQueryParam(description = "This is longitude from")
-                          @RequestParam(value = "lonFrom", required = false)
-                                  double lonFrom,
-                          @ApiQueryParam(description = "This is latitude to")
-                          @RequestParam(value = "latTo", required = false)
-                                  double latTo,
-                          @ApiQueryParam(description = "This is longitude to")
-                          @RequestParam(value = "lonTo", required = false)
-                                  double lonTo) {
-        GORouteRequest goRouteRequest = new GORouteRequest(new GOGeoNode(latFrom, lonFrom), new GOGeoNode(latTo, lonTo));
-        return giddyHopper.route(goRouteRequest);
+    GiddyRouteResponse route(@ApiQueryParam(description = "This is latitude from")
+                             @RequestParam(value = "latFrom", required = false)
+                                     double latFrom,
+                             @ApiQueryParam(description = "This is longitude from")
+                             @RequestParam(value = "lonFrom", required = false)
+                                     double lonFrom,
+                             @ApiQueryParam(description = "This is latitude to")
+                             @RequestParam(value = "latTo", required = false)
+                                     double latTo,
+                             @ApiQueryParam(description = "This is longitude to")
+                             @RequestParam(value = "lonTo", required = false)
+                                     double lonTo) {
+        GiddyRouteRequest giddyRouteRequest = new GiddyRouteRequest(new GiddyGeoNode(latFrom, lonFrom), new GiddyGeoNode(latTo, lonTo));
+        return giddyHopper.route(giddyRouteRequest);
     }
 }

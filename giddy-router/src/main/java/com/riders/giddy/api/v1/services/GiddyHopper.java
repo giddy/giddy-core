@@ -8,30 +8,29 @@ import com.graphhopper.routing.util.EncodingManager;
 import com.graphhopper.util.Parameters;
 import com.graphhopper.util.PointList;
 import com.graphhopper.util.shapes.GHPoint3D;
-import com.riders.giddy.api.v1.models.GOGeoNode;
-import com.riders.giddy.api.v1.models.GORouteRequest;
-import com.riders.giddy.api.v1.models.GORouteResponse;
-import com.riders.giddy.commons.models.SessionRoute;
-import org.springframework.beans.factory.annotation.Value;
+import com.riders.giddy.api.v1.models.GiddyGeoNode;
+import com.riders.giddy.api.v1.models.GiddyRouteRequest;
+import com.riders.giddy.api.v1.models.GiddyRouteResponse;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import java.util.Iterator;
 
+/**
+ * TODO Add javadoc
+ */
 @Service
 public class GiddyHopper extends GraphHopper {
 
-    @Value("${city}") // found in src/main/resources/application.properties
-    private String CITY;
+    private static final String CITY = "cluj";
 
-    @Value("${vehicle}")
-    private String VEHICLE;
-
-    @Value("${download_osm_map}")
-    private boolean DOWNLOAD_MAP;
+    private static final String VEHICLE = "bike";
 
     private EncodingManager appEncoder;
 
+    /**
+     * TODO Add javadoc
+     */
     @PostConstruct
     public void initialize() {
 
@@ -42,26 +41,32 @@ public class GiddyHopper extends GraphHopper {
         this.importOrLoad();
     }
 
-    public GORouteResponse route(GORouteRequest goRouteRequest) {
+    /**
+     * TODO Add javadoc
+     * @param giddyRouteRequest
+     * @return
+     */
+    public GiddyRouteResponse route(GiddyRouteRequest giddyRouteRequest) {
+        GHRequest ghRequest = new GHRequest(giddyRouteRequest.getStart().getLatitude(),
+                giddyRouteRequest.getStart().getLongitude(),
+                giddyRouteRequest.getDestination().getLatitude(),
+                giddyRouteRequest.getDestination().getLongitude())
+                .setVehicle(VEHICLE).setAlgorithm(Parameters.Algorithms.ASTAR_BI);
 
-        GHRequest ghRequest = new GHRequest(goRouteRequest.getStart().getLatitude(),
-                goRouteRequest.getStart().getLongitude(),
-                goRouteRequest.getDestination().getLatitude(),
-                goRouteRequest.getDestination().getLongitude()).setVehicle(VEHICLE).setAlgorithm(Parameters.Algorithms.ASTAR_BI);
         GHResponse ghResponse = route(ghRequest);
 
         PathWrapper pathWrapper = ghResponse.getBest();
 
-        GORouteResponse goRouteResponse = new GORouteResponse();
+        GiddyRouteResponse giddyRouteResponse = new GiddyRouteResponse();
 
         PointList pointList = pathWrapper.getPoints();
         GHPoint3D ghPoint;
         for (Iterator<GHPoint3D> it = pointList.iterator(); it.hasNext(); ) {
             ghPoint = it.next();
-            goRouteResponse.add(new GOGeoNode(ghPoint.getLat(), ghPoint.getLon()));
+            giddyRouteResponse.add(new GiddyGeoNode(ghPoint.getLat(), ghPoint.getLon()));
         }
 
-        return goRouteResponse;
+        return giddyRouteResponse;
     }
 
 }

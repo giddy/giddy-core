@@ -3,40 +3,40 @@ package com.riders.giddy.api.v1.models;
 /**
  * Created by rik on 11/13/16.
  */
-public class GORouteRequest {
+public class GiddyRouteRequest {
 
-    private GOScore goScore;
+    private GiddyScore giddyScore;
     private float lowerBoundValue;
-    private GOGeoNode start;
-    private GOGeoNode destination;
+    private GiddyGeoNode start;
+    private GiddyGeoNode destination;
 
-    private static final GOScore GO_SCORE_DEFAULT = new GOScore();
+    private static final GiddyScore GO_SCORE_DEFAULT = new GiddyScore();
     private static final float GO_LOWER_BOUND_DEFAULT = 1;
 
-    public GORouteRequest(GOGeoNode start, GOGeoNode destination) {
+    public GiddyRouteRequest(GiddyGeoNode start, GiddyGeoNode destination) {
         this(GO_SCORE_DEFAULT, GO_LOWER_BOUND_DEFAULT, start, destination);
     }
 
-    public GORouteRequest(GOScore goScore, float lowerBoundValue, GOGeoNode start, GOGeoNode destination) {
-        this.goScore = goScore;
+    public GiddyRouteRequest(GiddyScore giddyScore, float lowerBoundValue, GiddyGeoNode start, GiddyGeoNode destination) {
+        this.giddyScore = giddyScore;
         this.lowerBoundValue = lowerBoundValue;
         this.start = start;
         this.destination = destination;
     }
 
-    public GOGeoNode getStart() {
+    public GiddyGeoNode getStart() {
         return start;
     }
 
-    public void setStart(GOGeoNode start) {
+    public void setStart(GiddyGeoNode start) {
         this.start = start;
     }
 
-    public GOGeoNode getDestination() {
+    public GiddyGeoNode getDestination() {
         return destination;
     }
 
-    public void setDestination(GOGeoNode destination) {
+    public void setDestination(GiddyGeoNode destination) {
         this.destination = destination;
     }
 
@@ -49,11 +49,11 @@ public class GORouteRequest {
     }
 
     public float[] getGaugeScore() {
-        return goScore.toFloat();
+        return giddyScore.toFloat();
     }
 
-    public void setGoScore(GOScore goScore) {
-        this.goScore = goScore;
+    public void setGiddyScore(GiddyScore giddyScore) {
+        this.giddyScore = giddyScore;
     }
 
 }

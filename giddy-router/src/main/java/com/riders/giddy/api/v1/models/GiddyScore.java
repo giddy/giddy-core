@@ -1,17 +1,13 @@
 package com.riders.giddy.api.v1.models;
 
 
-import javax.persistence.Id;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
+import javax.persistence.*;
 
 /**
  * Created by rik on 11/13/16.
  */
 @Entity
-public class GOScore {
+public class GiddyScore {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -31,7 +27,7 @@ public class GOScore {
     @Column
     private Integer crowded;
 
-    public GOScore() {
+    public GiddyScore() {
         safe = 0;
         touristy = 0;
         recreational = 0;
