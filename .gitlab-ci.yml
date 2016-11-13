@@ -8,5 +8,9 @@ variables:
   POSTGRES_USER: runner
   POSTGRES_PASSWORD: ""
 
+cache:
+  paths:
+    - .gradle/
+
 build:
-  script: "gradle clean build"
+  script: "gradle clean build --debug"
