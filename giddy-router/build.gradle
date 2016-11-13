@@ -40,7 +40,6 @@ dependencies {
     compile('org.springframework.boot:spring-boot-starter-data-jpa')
     compile group: 'org.jsondoc', name: 'spring-boot-starter-jsondoc', version: '1.2.16'
     compile group: 'org.jsondoc', name: 'jsondoc-ui-webjar', version: '1.2.16'
-    compile 'org.springframework.data:spring-data-mongodb:1.9.4.RELEASE'
     compile(group: 'com.graphhopper', name: 'graphhopper', version: '0.7.0') {
         exclude group: 'org.slf4j'
     }
