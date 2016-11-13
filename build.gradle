@@ -20,8 +20,8 @@ checkstyle {
 }
 
 jar {
-    baseName = 'giddy-core'
-    version = '0.0.2-SNAPSHOT'
+	baseName = 'giddy-core'
+	version = '0.0.2-SNAPSHOT'
     from('.pbf/') {
         include '*.pbf'
     }
@@ -34,6 +34,9 @@ repositories {
     mavenCentral()
 }
 
+springBoot {
+    executable = true
+}
 
 dependencies {
     compile('org.springframework.boot:spring-boot-starter-web')
@@ -44,18 +47,17 @@ dependencies {
     // https://mvnrepository.com/artifact/org.jsondoc/jsondoc-ui-webjar
     compile group: 'org.jsondoc', name: 'jsondoc-ui-webjar', version: '1.2.16'
 
-    // https://mvnrepository.com/artifact/com.graphhopper/graphhopper
-    compile group: 'com.graphhopper', name: 'graphhopper', version: '0.7.0'
+    compile 'org.springframework.data:spring-data-mongodb:1.9.4.RELEASE'
 
-    // https://mvnrepository.com/artifact/org.hibernate/hibernate-core
-    compile group: 'org.hibernate', name: 'hibernate-core', version: '5.2.4.Final'
+	// https://mvnrepository.com/artifact/com.graphhopper/graphhopper
+    compile(group: 'com.graphhopper', name: 'graphhopper', version: '0.7.0') {
+        exclude group: 'org.slf4j'
+    }
 
-    // https://mvnrepository.com/artifact/org.hibernate/hibernate-annotations
-    compile group: 'org.hibernate', name: 'hibernate-annotations', version: '3.5.6-Final'
-
+    testCompile group: "de.flapdoodle.embed", name: "de.flapdoodle.embed.mongo", version: "1.50.3"
     testCompile('org.springframework.boot:spring-boot-starter-test')
 }
 
-task downloadMap(type: Exec) {
+task downloadMap(type:Exec) {
     commandLine './giddy.sh'
 }

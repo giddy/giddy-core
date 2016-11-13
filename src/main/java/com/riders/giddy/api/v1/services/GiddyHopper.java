@@ -8,16 +8,16 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 
-/**
- * Created by rik on 10/16/16.
- */
 @Service
 public class GiddyHopper extends GraphHopper {
 
     @Value("${city}") // found in src/main/resources/application.properties
     private String CITY;
 
-    EncodingManager appEncoder;
+    @Value("${download_osm_map}")
+    private boolean DOWNLOAD_MAP;
+
+    private EncodingManager appEncoder;
 
     @PostConstruct
     public void initialize() {
@@ -26,7 +26,8 @@ public class GiddyHopper extends GraphHopper {
         this.setGraphHopperLocation("./.graphs/graph_" + CITY);
         appEncoder = new EncodingManager("car,bike,foot");
         this.setEncodingManager(appEncoder);
-
-        this.importOrLoad();
+        if (DOWNLOAD_MAP) {
+            this.importOrLoad();
+        }
     }
 }
