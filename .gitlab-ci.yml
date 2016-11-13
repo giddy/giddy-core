@@ -5,7 +5,7 @@ services:
 
 variables:
   POSTGRES_DB: giddy
-  POSTGRES_USER: ""
+  POSTGRES_USER: postgres
   POSTGRES_PASSWORD: ""
 
 before_script:
