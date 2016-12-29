@@ -1,4 +1,4 @@
-image: java:openjdk-8-jdk
+image: frolvlad/alpine-oraclejdk8:slim
 
 services:
   - postgres:latest
@@ -20,7 +20,7 @@ cache:
 build:
   stage: build
   script:
-    - ./gradlew assemble
+    - ./gradlew build buildDocker
 
 test:
   stage: test
