@@ -81,8 +81,7 @@ atlassian-ide-plugin.xml
 .pbfs/
 graphs/
 classes/
-giddy-collector/build
-giddy-router/build
-giddy-router/graphs
-giddy-router/osm_files
+build/
+graphs/
+osm_files/
 *.pbf

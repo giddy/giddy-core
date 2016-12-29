@@ -1,0 +1,60 @@
+buildscript {
+    ext {
+        springBootVersion = '1.4.1.RELEASE'
+    }
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'spring-boot'
+apply plugin: 'checkstyle'
+
+checkstyle {
+    toolVersion = '7.1.1'
+}
+
+jar {
+    baseName = 'giddy-core'
+    version = '0.2'
+}
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+springBoot {
+    executable = true
+}
+
+dependencies {
+    compile('org.springframework.boot:spring-boot-starter-web')
+    compile('org.springframework.boot:spring-boot-starter-data-jpa')
+
+    compile group: 'org.jsondoc', name: 'spring-boot-starter-jsondoc', version: '1.2.16'
+    compile group: 'org.jsondoc', name: 'jsondoc-ui-webjar', version: '1.2.16'
+
+    compile(group: 'com.graphhopper', name: 'graphhopper', version: '0.7.0') {
+        exclude group: 'org.slf4j'
+    }
+
+    compile("org.springframework.cloud:spring-cloud-aws-context:1.0.2.RELEASE")
+    compile("commons-io:commons-io:2.4")
+
+    compile group: 'org.springframework.data', name: 'spring-data-jpa', version: '1.10.5.RELEASE'
+    compile group: 'postgresql', name: 'postgresql', version: '9.1-901-1.jdbc4'
+
+    testCompile('org.springframework.boot:spring-boot-starter-test')
+}
+
+task downloadMap(type:Exec) {
+    commandLine './giddy.sh'
+}
