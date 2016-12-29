@@ -20,7 +20,7 @@ cache:
 build:
   stage: build
   script:
-    - ./gradlew build buildDocker
+    - ./gradlew assemble
 
 test:
   stage: test

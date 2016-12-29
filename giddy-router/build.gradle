@@ -7,17 +7,13 @@ buildscript {
     }
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
-        classpath('se.transmode.gradle:gradle-docker:1.2')
     }
 }
-
-group = 'robikovacs'
 
 apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'spring-boot'
 apply plugin: 'checkstyle'
-apply plugin: 'docker'
 
 checkstyle {
     toolVersion = '7.1.1'
@@ -51,18 +47,6 @@ dependencies {
     compile group: 'postgresql', name: 'postgresql', version: '9.1-901-1.jdbc4'
 
     testCompile('org.springframework.boot:spring-boot-starter-test')
-}
-
-task buildDocker(type: Docker, dependsOn: build) {
-  push = true
-  applicationName = jar.baseName
-  dockerfile = file('src/main/docker/Dockerfile')
-  doFirst {
-    copy {
-      from jar
-      into stageDir
-    }
-  }
 }
 
 task downloadMap(type:Exec) {
