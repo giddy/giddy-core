@@ -1,4 +1,4 @@
-image: frolvlad/alpine-oraclejdk8:slim
+image: java:openjdk-8-jdk
 
 services:
   - postgres:latest
