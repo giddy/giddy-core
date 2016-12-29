@@ -26,3 +26,22 @@ test:
   stage: test
   script:
     - ./gradlew check
+
+deploy_staging:
+  stage: deploy
+  script:
+    - echo "Deploy to staging server"
+  environment:
+    name: staging
+  only:
+  - master
+
+deploy_prod:
+  stage: deploy
+  script:
+    - echo "Deploy to production server"
+  environment:
+    name: production
+  when: manual
+  only:
+  - master
