@@ -1,0 +1,27 @@
+#!/bin/bash
+while read oldrev newrev ref
+do
+    if [[ $ref =~ .*/master$ ]];
+    then
+        echo "Master ref received.  Deploying master branch to production..."
+        git --work-tree=/home/deployer/giddy-core-production --git-dir=/home/deployer/giddy-core checkout -f
+    else
+        echo "Ref $ref successfully received.  Doing nothing: only the master branch may be deployed on this server."
+    fi
+done
+
+# v2 
+#!/bin/bash
+while read oldrev newrev ref
+do
+    if [[ $ref =~ .*/master$ ]];
+    then
+        echo "Master ref received.  Deploying master branch to production..."
+        git --work-tree=/home/deployer/giddy-core-production --git-dir=/home/deployer/giddy-core checkout -f
+        (cd /home/deployer/giddy-core-production; ./gradlew assemble)
+        ./home/deployer/giddy-core-production/giddy-router/build/libs/giddy-core-0.2.jar
+
+    else
+        echo "Ref $ref successfully received.  Doing nothing: only the master branch may be deployed on this server."
+    fi
+done
