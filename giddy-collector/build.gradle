@@ -15,7 +15,7 @@ group = 'robikovacs'
 
 apply plugin: 'java'
 apply plugin: 'eclipse'
-apply plugin: 'org.springframework.boot'
+apply plugin: 'spring-boot'
 apply plugin: 'checkstyle'
 apply plugin: 'docker'
 
