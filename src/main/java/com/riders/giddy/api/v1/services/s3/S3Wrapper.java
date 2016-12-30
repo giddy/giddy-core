@@ -21,6 +21,7 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class S3Wrapper {
@@ -30,6 +31,9 @@ public class S3Wrapper {
 
 	@Value("${cloud.aws.s3.bucket}")
 	private String bucket;
+
+	@Value("${cloud.aws.s3.default_path}")
+	private String defaultPath;
 
 	private PutObjectResult upload(String filePath, String uploadKey) throws FileNotFoundException {
 		return upload(new FileInputStream(filePath), uploadKey);
@@ -47,12 +51,15 @@ public class S3Wrapper {
 		return putObjectResult;
 	}
 
-	public List<PutObjectResult> upload(MultipartFile multipartFile) {
+	public List<PutObjectResult> upload(MultipartFile multipartFile, UUID uuid) {
 		List<PutObjectResult> putObjectResults = new ArrayList<>();
 
 		if(!StringUtils.isEmpty(multipartFile.getOriginalFilename())) {
 			try {
-				putObjectResults.add(upload(multipartFile.getInputStream(), multipartFile.getOriginalFilename()));
+				putObjectResults.add(upload(multipartFile.getInputStream(),
+						this.defaultPath
+								.concat(uuid.toString() + '-')
+								.concat(multipartFile.getOriginalFilename())));
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

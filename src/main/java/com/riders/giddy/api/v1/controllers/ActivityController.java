@@ -19,16 +19,17 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Api(name = "giddy-collector", description = "This is the core collector API of Giddy")
 @ApiVersion(since = "v1")
 
 @RestController
 @RequestMapping("/api/v1/collector")
-public class UploadController {
+public class ActivityController {
 
 	@Autowired
 	private S3Wrapper s3Wrapper;
@@ -36,15 +37,24 @@ public class UploadController {
 	@Autowired
 	private GiddyActivityRepository giddyActivityRepository;
 
-	@ApiMethod(description = "Upload gpx files and create activity")
+    @ApiMethod(description = "Save activity")
+    @RequestMapping(value = "/activities", method = RequestMethod.POST)
+    public GiddyActivity saveActivity(
+            @ApiQueryParam(name = "giddyActivity", description = "This is the activity")
+            @Valid
+            @RequestBody
+            GiddyActivity giddyActivity) {
+        return giddyActivityRepository.save(giddyActivity);
+    }
+
+	@ApiMethod(description = "Upload gpx file")
 	@RequestMapping(value = "/upload", method = RequestMethod.POST)
 	public List<PutObjectResult> upload(
-			@ApiQueryParam(description = "This is the activity object")
-			@Valid
-			@RequestBody
-			GiddyActivity giddyActivity) {
-		giddyActivityRepository.save(giddyActivity); // TODO Refactor into GiddyActivityService
-		return s3Wrapper.upload(giddyActivity.getFile());
+			@ApiQueryParam(name = "file", description = "This is the activity gpx file")
+			@NotNull
+			@RequestParam(name = "file")
+			MultipartFile file) {
+		return s3Wrapper.upload(file, UUID.randomUUID());
 	}
 
 	@ApiMethod(description = "Download gpx files")

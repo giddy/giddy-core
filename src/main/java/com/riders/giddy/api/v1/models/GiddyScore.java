@@ -52,6 +52,15 @@ public class GiddyScore {
         crowded = 0;
     }
 
+    public GiddyScore(Integer safe, Integer touristy, Integer recreational, Integer fast, Integer challenging, Integer crowded) {
+        this.safe = safe;
+        this.touristy = touristy;
+        this.recreational = recreational;
+        this.fast = fast;
+        this.challenging = challenging;
+        this.crowded = crowded;
+    }
+
     public Integer getSafe() {
         return safe;
     }

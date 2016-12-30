@@ -1,10 +1,12 @@
 package com.riders.giddy.api.v1.models;
 
 import org.hibernate.validator.constraints.NotBlank;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.UUID;
 
 /**
  * Created by rik on 12/30/16.
@@ -13,9 +15,11 @@ import javax.validation.constraints.NotNull;
 @Entity
 public class GiddyActivity {
 
+    @Value("${cloud.aws.s3.public_url}")
+    private static String S3Url;
+
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    Integer id;
+    public UUID id;
 
     @NotBlank(message = "name must not be blank!")
     @Column
@@ -29,29 +33,21 @@ public class GiddyActivity {
     @Column
     private String userName;
 
-    @NotBlank(message = "fileName must not be blank!")
     @Column
     private String fileName;
 
     @OneToOne(cascade=CascadeType.ALL)
     private GiddyScore giddyScore;
 
-    // Used only for request body, not saved into db
-    @Transient
-    @NotNull(message = "file must not be null!")
-    private MultipartFile file;
-
     public GiddyActivity() {
     }
 
-    public GiddyActivity(String name, String remarks, String userName, String fileName, GiddyScore giddyScore,
-                         MultipartFile file) {
+    public GiddyActivity(String name, String remarks, String userName, String fileName, GiddyScore giddyScore) {
         this.name = name;
         this.remarks = remarks;
         this.userName = userName;
         this.fileName = fileName;
         this.giddyScore = giddyScore;
-        this.file = file;
     }
 
     public String getName() {
@@ -94,11 +90,7 @@ public class GiddyActivity {
         this.giddyScore = giddyScore;
     }
 
-    public MultipartFile getFile() {
-        return file;
-    }
-
-    public void setFile(MultipartFile file) {
-        this.file = file;
+    public String getS3Url() {
+        return S3Url.concat(this.id.toString() + '-' + this.getFileName());
     }
 }
