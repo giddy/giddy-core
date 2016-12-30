@@ -15,11 +15,9 @@ import java.util.UUID;
 @Entity
 public class GiddyActivity {
 
-    @Value("${cloud.aws.s3.public_url}")
-    private static String S3Url;
-
     @Id
-    public UUID id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    Integer id;
 
     @NotBlank(message = "name must not be blank!")
     @Column
@@ -39,15 +37,11 @@ public class GiddyActivity {
     @OneToOne(cascade=CascadeType.ALL)
     private GiddyScore giddyScore;
 
-    public GiddyActivity() {
-    }
+    @Value("${cloud.aws.s3.public_url}")
+    @Transient
+    private static String S3Url;
 
-    public GiddyActivity(String name, String remarks, String userName, String fileName, GiddyScore giddyScore) {
-        this.name = name;
-        this.remarks = remarks;
-        this.userName = userName;
-        this.fileName = fileName;
-        this.giddyScore = giddyScore;
+    public GiddyActivity() {
     }
 
     public String getName() {

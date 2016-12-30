@@ -51,14 +51,14 @@ public class S3Wrapper {
 		return putObjectResult;
 	}
 
-	public List<PutObjectResult> upload(MultipartFile multipartFile, UUID uuid) {
+	public List<PutObjectResult> upload(MultipartFile multipartFile, Integer activityId) {
 		List<PutObjectResult> putObjectResults = new ArrayList<>();
 
 		if(!StringUtils.isEmpty(multipartFile.getOriginalFilename())) {
 			try {
 				putObjectResults.add(upload(multipartFile.getInputStream(),
 						this.defaultPath
-								.concat(uuid.toString() + '-')
+								.concat(activityId.toString() + '-')
 								.concat(multipartFile.getOriginalFilename())));
 			} catch (IOException e) {
 				e.printStackTrace();

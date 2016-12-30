@@ -44,17 +44,20 @@ public class ActivityController {
             @Valid
             @RequestBody
             GiddyActivity giddyActivity) {
-        return giddyActivityRepository.save(giddyActivity);
+		return giddyActivityRepository.save(giddyActivity);
     }
 
 	@ApiMethod(description = "Upload gpx file")
 	@RequestMapping(value = "/upload", method = RequestMethod.POST)
 	public List<PutObjectResult> upload(
+			@ApiQueryParam(name = "activityId", description = "This is the activity id")
+			@RequestParam(name = "activityId")
+			Integer activityId,
 			@ApiQueryParam(name = "file", description = "This is the activity gpx file")
 			@NotNull
 			@RequestParam(name = "file")
 			MultipartFile file) {
-		return s3Wrapper.upload(file, UUID.randomUUID());
+		return s3Wrapper.upload(file, activityId);
 	}
 
 	@ApiMethod(description = "Download gpx files")
