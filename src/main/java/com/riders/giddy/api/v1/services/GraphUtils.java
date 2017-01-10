@@ -1,28 +1,16 @@
 package com.riders.giddy.api.v1.services;
 
-import com.graphhopper.matching.EdgeMatch;
-import com.graphhopper.storage.GraphHopperStorage;
-import com.graphhopper.util.EdgeIterator;
-import com.graphhopper.util.shapes.GHPoint;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-
-/**
- * Created by tothe on 5/27/16.
- */
 @Service
-public class GraphUtils {
-
-    private GiddyHopper giddyHopper;
+class GraphUtils {
+/*
+    private GiddyRouter giddyHopper;
     private GraphHopperStorage graph;
 
 
     @Autowired
-    public GraphUtils(GiddyHopper giddyHopper) {
+    public GraphUtils(GiddyRouter giddyHopper) {
 
         this.giddyHopper = giddyHopper;
         graph = giddyHopper.getGraphHopperStorage();
@@ -85,5 +73,5 @@ public class GraphUtils {
             }
         }
         return -1;
-    }
+    }*/
 }

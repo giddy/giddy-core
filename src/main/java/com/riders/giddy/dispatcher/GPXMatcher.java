@@ -1,26 +1,14 @@
 package com.riders.giddy.dispatcher;
 
-import com.graphhopper.matching.*;
-import com.graphhopper.storage.GraphHopperStorage;
-import com.graphhopper.storage.index.LocationIndexTree;
-import com.graphhopper.util.GPXEntry;
-import com.riders.giddy.api.v1.services.GiddyHopper;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
-/**
- * Created by tothe on 5/12/16.
- */
 @Service
-public class GPXMatcher {
-
+class GPXMatcher {
+/*
     List<GPXEntry> inputGPXEntries;
 
     @Autowired
-    GiddyHopper coreRouter;
+    GiddyRouter coreRouter;
 
     public List<EdgeMatch> importGpx(String filename, String encoderName) {
 
@@ -47,7 +35,7 @@ public class GPXMatcher {
     }
 
 
-  /*  public String getGpxEntries(List<GPXEntry>) {
+  *//*  public String getGpxEntries(List<GPXEntry>) {
         String resp = "";
         for (GPXEntry e : inputGPXEntries) {
             resp += String.valueOf(e.getLat()) + "," + String.valueOf(e.getLon() + ",");

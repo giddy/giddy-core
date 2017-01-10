@@ -1,44 +1,10 @@
 package com.riders.giddy.dispatcher;
 
-import com.graphhopper.matching.EdgeMatch;
-
-import org.json.simple.JSONArray;
-import org.json.simple.JSONAware;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.xml.sax.SAXException;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-
-import licence.business.routing.GPXMatcher;
-import licence.business.routing.GraphUtils;
-import licence.model.geo.RouteEdge;
-import licence.model.geo.SessionFiles;
-import licence.model.geo.StatsDescriptor;
-
-import static java.lang.Math.toIntExact;
-
-/**
- * Created by tothe on 5/25/16.
- */
 @Service
-public class Resolution {
-
+class Resolution {
+/*
 
     public static final String GITHUB_CLIENT_DATA_DIRECTORY = "/home/tothe/Documents/work/githubStaticPage/tudorbeleuta.github.io/res/data/";
     public static final String CLIENT_DATA_DIRECTORY = "/home/tothe/Documents/work/githubStaticPage/tudorbeleuta.github.io/res/data/";
@@ -163,11 +129,11 @@ public class Resolution {
 
 
         writeJsonToFile(filename, MAP_DATA_VARNAME, resp);
-        /*try {
+        *//*try {
             GraphHttpClient.postJson("var mapList="+resp.toJSONString());
         } catch (IOException e) {
             e.printStackTrace();
-        }*/
+        }*//*
     }
 
 
@@ -192,6 +158,6 @@ public class Resolution {
             return false;
         }
 
-    }
+    }*/
 
 }

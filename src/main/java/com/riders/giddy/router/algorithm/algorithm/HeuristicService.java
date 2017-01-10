@@ -3,12 +3,7 @@ package com.riders.giddy.router.algorithm.algorithm;
 
 import com.riders.giddy.commons.persistence.store.GraphStatsStore;
 import com.riders.giddy.commons.persistence.store.GraphStoreImpl;
-import com.riders.giddy.router.algorithm.algorithm.weighting.similarities.CosineSimilarity;
 import com.riders.giddy.router.algorithm.algorithm.weighting.similarities.SimilarityAlgorithm;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 /**
  * Computes the similarity of a given node based on its so far stored scores, with respect to
@@ -17,15 +12,13 @@ import org.springframework.stereotype.Service;
  * check(may vary depending on tehnique) and the result is a score that represents how much the candidate
  * nodes are alike based on their descriptions
  */
-@Service
-public class HeuristicService {
+class HeuristicService {
 
-    GraphStatsStore graphStatsStore;
+    private final GraphStatsStore graphStatsStore;
 
-    SimilarityAlgorithm similarityAlgorithm;
+    private final SimilarityAlgorithm similarityAlgorithm;
 
-    @Autowired
-    HeuristicService(CosineSimilarity cosineSimilarityAlgorithm, GraphStoreImpl graphStatsStore){
+    HeuristicService(SimilarityAlgorithm cosineSimilarityAlgorithm, GraphStoreImpl graphStatsStore) {
         this.similarityAlgorithm = cosineSimilarityAlgorithm;
         this.graphStatsStore = graphStatsStore;
     }

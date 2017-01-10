@@ -11,19 +11,18 @@ import com.graphhopper.storage.SPTEntry;
 import com.graphhopper.util.DistancePlaneProjection;
 import com.graphhopper.util.EdgeExplorer;
 import com.graphhopper.util.EdgeIterator;
-import com.graphhopper.util.Parameters;
+import com.riders.giddy.commons.persistence.store.GraphStoreImpl;
+import com.riders.giddy.router.algorithm.algorithm.weighting.similarities.CosineSimilarity;
 
 import gnu.trove.map.TIntObjectMap;
 import gnu.trove.map.hash.TIntObjectHashMap;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import java.util.PriorityQueue;
 
-import licence.model.geo.GraphRegister;
+import static com.graphhopper.util.Parameters.Algorithms.ASTAR;
+
 
 public class CustomAstar extends AbstractRoutingAlgorithm {
-
 
     private WeightApproximator weightApprox;
     private int visitedCount;
@@ -32,8 +31,10 @@ public class CustomAstar extends AbstractRoutingAlgorithm {
     private AStarEntry currEdge;
     private int to1 = -1;
 
-    @Autowired
-    private HeuristicService heuristicService;
+    private float[] gaugeScore;
+    private float lowerBound;
+
+    private final HeuristicService heuristicService;
 
 
     public CustomAstar(Graph g, FlagEncoder encoder, Weighting weighting, TraversalMode tMode) {
@@ -41,28 +42,40 @@ public class CustomAstar extends AbstractRoutingAlgorithm {
 
         super(g, encoder, weighting, tMode);
 
-        initCollections(1000);
+        initCollections();
         HeuristicWeightApproximator heuristicApprox = new HeuristicWeightApproximator(nodeAccess, weighting);
         heuristicApprox.setDistanceCalc(new DistancePlaneProjection());
         setApproximation(heuristicApprox);
+
+        heuristicService = new HeuristicService(new CosineSimilarity(), new GraphStoreImpl());
     }
 
     /**
      * @param approx defines how distance to goal Node is approximated
      */
-    public CustomAstar setApproximation(WeightApproximator approx) {
+    public void setApproximation(WeightApproximator approx) {
         weightApprox = approx;
-        return this;
     }
 
-    protected void initCollections(int size) {
-        fromMap = new TIntObjectHashMap<AStarEntry>();
-        prioQueueOpenSet = new PriorityQueue<AStarEntry>(size);
+    private void initCollections() {
+        fromMap = new TIntObjectHashMap<>();
+        prioQueueOpenSet = new PriorityQueue<>(1000);
+    }
+
+    public Path computePathOnUserParameters(int from, int to, float[] gaugeScore, float lowerBound) {
+        setUserRouteParameters(gaugeScore, lowerBound);
+        return calcPath(from, to);
+    }
+
+
+    private void setUserRouteParameters(float[] gaugeScore, float lowerBound) {
+        this.gaugeScore = gaugeScore;
+        this.lowerBound = lowerBound;
     }
 
     @Override
     public Path calcPath(int from, int to) {
-        checkAlreadyRun();
+
         to1 = to;
 
         weightApprox.setGoalNode(to);
@@ -81,8 +94,6 @@ public class CustomAstar extends AbstractRoutingAlgorithm {
             int currVertex = currEdge.adjNode;
 
             visitedCount++;
-            if (isWeightLimitExceeded())
-                return createEmptyPath();
 
             if (finished())
                 break;
@@ -133,6 +144,7 @@ public class CustomAstar extends AbstractRoutingAlgorithm {
                 throw new AssertionError("Empty edge cannot happen");
         }
 
+
         return extractPath();
     }
 
@@ -153,11 +165,11 @@ public class CustomAstar extends AbstractRoutingAlgorithm {
 
     @Override
     public String getName() {
-        return Parameters.Algorithms.ASTAR;
+        return ASTAR;
     }
 
-    public double getHeuristicFactor(int nodeId) {
-        return heuristicService.getHeuristicFactor(nodeId, GraphRegister.getGaugeScore());
+    private double getHeuristicFactor(int nodeId) {
+        return heuristicService.getHeuristicFactor(nodeId, gaugeScore, lowerBound);
     }
 
     public static class AStarEntry extends SPTEntry {
