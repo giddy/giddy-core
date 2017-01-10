@@ -1,9 +1,11 @@
-package licence.business.routing;
+package com.riders.giddy.dispatcher;
 
 import com.graphhopper.matching.*;
 import com.graphhopper.storage.GraphHopperStorage;
 import com.graphhopper.storage.index.LocationIndexTree;
 import com.graphhopper.util.GPXEntry;
+import com.riders.giddy.api.v1.services.GiddyHopper;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +20,7 @@ public class GPXMatcher {
     List<GPXEntry> inputGPXEntries;
 
     @Autowired
-    CoreRouter coreRouter;
+    GiddyHopper coreRouter;
 
     public List<EdgeMatch> importGpx(String filename, String encoderName) {
 
@@ -34,7 +36,6 @@ public class GPXMatcher {
 
 // do the actual matching, get the GPX entries from a file or via stream
         mapMatching.setForceRepair(true);
-        mapMatching.setMaxNodesToVisit(1000);
         MatchResult mr = mapMatching.doWork(inputGPXEntries);
 
 // return GraphHopper edges with all associated GPX entries

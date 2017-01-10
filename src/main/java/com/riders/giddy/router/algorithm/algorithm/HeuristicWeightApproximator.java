@@ -6,10 +6,7 @@ import com.graphhopper.storage.NodeAccess;
 import com.graphhopper.util.DistanceCalc;
 import com.graphhopper.util.Helper;
 
-/**
- * Created by tothe on 6/5/16.
- */
-public class HeuristicWeightiApproximator implements WeightApproximator {
+public class HeuristicWeightApproximator implements WeightApproximator {
 
     private final NodeAccess nodeAccess;
     private final Weighting weighting;
@@ -18,7 +15,7 @@ public class HeuristicWeightiApproximator implements WeightApproximator {
     private double epsilon = 1;
 
 
-    public HeuristicWeightiApproximator(NodeAccess nodeAccess, Weighting weighting) {
+    public HeuristicWeightApproximator(NodeAccess nodeAccess, Weighting weighting) {
         this.nodeAccess = nodeAccess;
         this.weighting = weighting;
 
@@ -37,13 +34,11 @@ public class HeuristicWeightiApproximator implements WeightApproximator {
 
     @Override
     public WeightApproximator duplicate() {
-        return new HeuristicWeightiApproximator(nodeAccess, weighting).setDistanceCalc(distanceCalc).setEpsilon(epsilon);
+        return new HeuristicWeightApproximator(nodeAccess, weighting).setDistanceCalc(distanceCalc).setEpsilon(epsilon);
     }
 
     @Override
     public double approximate(int fromNode) {
-
-        //double heuristicFactor=getHeuristicFactor(fromNode);
 
         double fromLat = nodeAccess.getLatitude(fromNode);
         double fromLon = nodeAccess.getLongitude(fromNode);
@@ -54,7 +49,7 @@ public class HeuristicWeightiApproximator implements WeightApproximator {
         return weight2goal * epsilon;
     }
 
-    public HeuristicWeightiApproximator setDistanceCalc(DistanceCalc distanceCalc) {
+    public HeuristicWeightApproximator setDistanceCalc(DistanceCalc distanceCalc) {
         this.distanceCalc = distanceCalc;
         return this;
     }

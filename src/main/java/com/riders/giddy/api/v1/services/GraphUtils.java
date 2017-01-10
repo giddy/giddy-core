@@ -1,13 +1,10 @@
-package licence.business.routing;
+package com.riders.giddy.api.v1.services;
 
-import com.graphhopper.GraphHopper;
 import com.graphhopper.matching.EdgeMatch;
-import com.graphhopper.routing.VirtualEdgeIteratorState;
 import com.graphhopper.storage.GraphHopperStorage;
 import com.graphhopper.util.EdgeIterator;
-import com.graphhopper.util.EdgeIteratorState;
-import com.graphhopper.util.PointList;
 import com.graphhopper.util.shapes.GHPoint;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,15 +17,15 @@ import java.util.List;
 @Service
 public class GraphUtils {
 
-    private CoreRouter router;
+    private GiddyHopper giddyHopper;
     private GraphHopperStorage graph;
 
 
     @Autowired
-    public GraphUtils(CoreRouter router) {
+    public GraphUtils(GiddyHopper giddyHopper) {
 
-        this.router = router;
-        graph = router.getGraphHopperStorage();
+        this.giddyHopper = giddyHopper;
+        graph = giddyHopper.getGraphHopperStorage();
     }
 
     public int getEdgeIdByMatch(EdgeMatch edgeMatch) {
@@ -62,16 +59,16 @@ public class GraphUtils {
     }
 
     public int getEdgeByBaseCoords(double lat, double lon) {
-        return router.findEdgeId(lat, lon);
+        return giddyHopper.findEdgeId(lat, lon);
     }
 
 
     public int getNodeByCoords(double lat, double lon) {
-        return router.getLocationIndex().findID(lat, lon);
+        return giddyHopper.getLocationIndex().findID(lat, lon);
     }
 
     public int getEdgeByBaseId(int baseNodeId) {
-        EdgeIterator e=router.getGraphHopperStorage().createEdgeExplorer().setBaseNode(baseNodeId);
+        EdgeIterator e= giddyHopper.getGraphHopperStorage().createEdgeExplorer().setBaseNode(baseNodeId);
         while (e.next()){
             if(e.getBaseNode()==baseNodeId){
                 return e.getEdge();
@@ -81,7 +78,7 @@ public class GraphUtils {
     }
 
     public int getAdjByBaseIdEdgeId(int baseNodeId,int edgeId) {
-        EdgeIterator e=router.getGraphHopperStorage().createEdgeExplorer().setBaseNode(baseNodeId);
+        EdgeIterator e= giddyHopper.getGraphHopperStorage().createEdgeExplorer().setBaseNode(baseNodeId);
         while (e.next()){
             if(e.getBaseNode()==baseNodeId&&edgeId==e.getEdge()){
                 return e.getAdjNode();
@@ -89,19 +86,4 @@ public class GraphUtils {
         }
         return -1;
     }
-
-
-
-
-    public CoreRouter getRouter() {
-        return router;
-
-    }
-
-    public void setRouter(CoreRouter router) {
-        this.router = router;
-    }
-
-    //EdgeIteratorState edgeIteratorState=router.getGraphHopperStorage().getEdgeIteratorState(edgeId,edgeNodeId);
-
 }

@@ -14,7 +14,7 @@ public class GiddyHopper extends GraphHopper {
     @Value("${city}") // found in src/main/resources/application.properties
     private String CITY;
 
-    @Value("${download_osm_map}")
+    @Value("${systemProperties.download_osm_map}")
     private boolean DOWNLOAD_MAP;
 
     private EncodingManager appEncoder;

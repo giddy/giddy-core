@@ -1,7 +1,6 @@
 package com.riders.giddy.router.algorithm.algorithm;
 
 import com.graphhopper.routing.AbstractRoutingAlgorithm;
-import com.graphhopper.routing.AlgorithmOptions;
 import com.graphhopper.routing.Path;
 import com.graphhopper.routing.util.FlagEncoder;
 import com.graphhopper.routing.util.TraversalMode;
@@ -12,9 +11,12 @@ import com.graphhopper.storage.SPTEntry;
 import com.graphhopper.util.DistancePlaneProjection;
 import com.graphhopper.util.EdgeExplorer;
 import com.graphhopper.util.EdgeIterator;
+import com.graphhopper.util.Parameters;
 
 import gnu.trove.map.TIntObjectMap;
 import gnu.trove.map.hash.TIntObjectHashMap;
+
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.PriorityQueue;
 
@@ -29,6 +31,8 @@ public class CustomAstar extends AbstractRoutingAlgorithm {
     private PriorityQueue<AStarEntry> prioQueueOpenSet;
     private AStarEntry currEdge;
     private int to1 = -1;
+
+    @Autowired
     private HeuristicService heuristicService;
 
 
@@ -36,10 +40,9 @@ public class CustomAstar extends AbstractRoutingAlgorithm {
 
 
         super(g, encoder, weighting, tMode);
-        heuristicService = new HeuristicService();
 
         initCollections(1000);
-        HeuristicWeightiApproximator heuristicApprox = new HeuristicWeightiApproximator(nodeAccess, weighting);
+        HeuristicWeightApproximator heuristicApprox = new HeuristicWeightApproximator(nodeAccess, weighting);
         heuristicApprox.setDistanceCalc(new DistancePlaneProjection());
         setApproximation(heuristicApprox);
     }
@@ -135,12 +138,7 @@ public class CustomAstar extends AbstractRoutingAlgorithm {
 
     @Override
     protected Path extractPath() {
-        return new Path(graph, flagEncoder).setWeight(currEdge.weight).setEdgeEntry(currEdge).extract();
-    }
-
-    @Override
-    protected SPTEntry createEdgeEntry(int node, double weight) {
-        throw new IllegalStateException("use AStarEdge constructor directly");
+        return new Path(graph, flagEncoder).setWeight(currEdge.weight).setSPTEntry(currEdge).extract();
     }
 
     @Override
@@ -154,13 +152,8 @@ public class CustomAstar extends AbstractRoutingAlgorithm {
     }
 
     @Override
-    protected boolean isWeightLimitExceeded() {
-        return currEdge.weight > weightLimit;
-    }
-
-    @Override
     public String getName() {
-        return AlgorithmOptions.ASTAR;
+        return Parameters.Algorithms.ASTAR;
     }
 
     public double getHeuristicFactor(int nodeId) {

@@ -18,7 +18,7 @@ public class RoutingAlgorithmFactoryCustom extends RoutingAlgorithmFactorySimple
     public RoutingAlgorithm createAlgo(Graph g, AlgorithmOptions opts) {
         String algoStr = opts.getAlgorithm();
             CustomAstar aStar = new CustomAstar(g, opts.getFlagEncoder(), opts.getWeighting(), opts.getTraversalMode());
-            aStar.setApproximation(getApproximation(AlgorithmOptions.ASTAR, opts, g.getNodeAccess()));
+            aStar.setApproximation(new HeuristicWeightApproximator(opts.));
             return aStar;
     }
 
@@ -134,7 +134,7 @@ public class RoutingAlgorithmFactoryCustom extends RoutingAlgorithmFactorySimple
             public long getTurnFlags(boolean restricted, double costs) {
                 return 0;
             }
-        }, new HeuristicWeightiApproximator(na, opts.getWeighting()));
+        }, new HeuristicWeightApproximator(na, opts.getWeighting()));
         double epsilon = opts.getHints().getDouble(prop + ".epsilon", 1);
         approx.setEpsilon(epsilon);
         approx.setDistanceCalc(Helper.DIST_PLANE);

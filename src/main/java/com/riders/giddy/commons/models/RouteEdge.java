@@ -1,4 +1,6 @@
-package licence.model.geo;
+package com.riders.giddy.commons.models;
+
+import com.riders.giddy.router.algorithm.algorithm.StatsDescriptor;
 
 /**
  * Created by tothe on 4/20/16.

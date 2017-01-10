@@ -50,6 +50,12 @@ dependencies {
     compile(group: 'com.graphhopper', name: 'graphhopper', version: '0.7.0') {
         exclude group: 'org.slf4j'
     }
+    // https://mvnrepository.com/artifact/com.graphhopper/map-matching
+    compile group: 'com.graphhopper', name: 'map-matching', version: '0.4.1'
+
+    // https://mvnrepository.com/artifact/org.apache.commons/commons-math3
+    compile group: 'org.apache.commons', name: 'commons-math3', version: '3.0'
+
 
     testCompile group: "de.flapdoodle.embed", name: "de.flapdoodle.embed.mongo", version: "1.50.3"
     testCompile('org.springframework.boot:spring-boot-starter-test')

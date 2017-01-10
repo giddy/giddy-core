@@ -7,6 +7,8 @@ import com.riders.giddy.router.algorithm.algorithm.weighting.similarities.Cosine
 import com.riders.giddy.router.algorithm.algorithm.weighting.similarities.SimilarityAlgorithm;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 /**
  * Computes the similarity of a given node based on its so far stored scores, with respect to
@@ -15,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  * check(may vary depending on tehnique) and the result is a score that represents how much the candidate
  * nodes are alike based on their descriptions
  */
+@Service
 public class HeuristicService {
 
     GraphStatsStore graphStatsStore;
