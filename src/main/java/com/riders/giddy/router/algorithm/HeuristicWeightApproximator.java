@@ -1,10 +1,12 @@
-package com.riders.giddy.router.algorithm.algorithm;
+package com.riders.giddy.router.algorithm;
 
 import com.graphhopper.routing.util.WeightApproximator;
 import com.graphhopper.routing.util.Weighting;
 import com.graphhopper.storage.NodeAccess;
 import com.graphhopper.util.DistanceCalc;
 import com.graphhopper.util.Helper;
+import com.riders.giddy.commons.persistence.store.GraphStatsStore;
+import com.riders.giddy.router.algorithm.weighting.similarities.CosineSimilarity;
 
 public class HeuristicWeightApproximator implements WeightApproximator {
 
@@ -12,13 +14,20 @@ public class HeuristicWeightApproximator implements WeightApproximator {
     private final Weighting weighting;
     private DistanceCalc distanceCalc = Helper.DIST_EARTH;
     private double toLat, toLon;
-    private double epsilon = 1;
 
 
-    public HeuristicWeightApproximator(NodeAccess nodeAccess, Weighting weighting) {
+    private float[] gaugeScore;
+    private float lowerBound;
+
+    private final HeuristicService heuristicService;
+    private final GraphStatsStore store;
+
+
+    public HeuristicWeightApproximator(NodeAccess nodeAccess, Weighting weighting, GraphStatsStore store) {
         this.nodeAccess = nodeAccess;
         this.weighting = weighting;
-
+        heuristicService = new HeuristicService(new CosineSimilarity(), store);
+        this.store = store;
     }
 
     @Override
@@ -27,14 +36,10 @@ public class HeuristicWeightApproximator implements WeightApproximator {
         toLon = nodeAccess.getLongitude(toNode);
     }
 
-    public WeightApproximator setEpsilon(double epsilon) {
-        this.epsilon = epsilon;
-        return this;
-    }
-
     @Override
     public WeightApproximator duplicate() {
-        return new HeuristicWeightApproximator(nodeAccess, weighting).setDistanceCalc(distanceCalc).setEpsilon(epsilon);
+        return new HeuristicWeightApproximator(nodeAccess, weighting, store)
+                .setDistanceCalc(distanceCalc);
     }
 
     @Override
@@ -46,11 +51,20 @@ public class HeuristicWeightApproximator implements WeightApproximator {
         double weight2goal = weighting.getMinWeight(dist2goal);
 
 
-        return weight2goal * epsilon;
+        return weight2goal * getHeuristicFactor(fromNode);
     }
 
     public HeuristicWeightApproximator setDistanceCalc(DistanceCalc distanceCalc) {
         this.distanceCalc = distanceCalc;
         return this;
+    }
+
+    double getHeuristicFactor(int nodeId) {
+        return heuristicService.getHeuristicFactor(nodeId, gaugeScore, lowerBound);
+    }
+
+    void setUserRouteParameters(float[] gaugeScore, float lowerBound) {
+        this.gaugeScore = gaugeScore;
+        this.lowerBound = lowerBound;
     }
 }

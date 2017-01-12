@@ -1,18 +1,14 @@
-package com.riders.giddy.router.algorithm.algorithm;
+package com.riders.giddy.router.algorithm;
 
 import com.graphhopper.routing.AbstractRoutingAlgorithm;
 import com.graphhopper.routing.Path;
 import com.graphhopper.routing.util.FlagEncoder;
 import com.graphhopper.routing.util.TraversalMode;
-import com.graphhopper.routing.util.WeightApproximator;
 import com.graphhopper.routing.util.Weighting;
 import com.graphhopper.storage.Graph;
 import com.graphhopper.storage.SPTEntry;
-import com.graphhopper.util.DistancePlaneProjection;
 import com.graphhopper.util.EdgeExplorer;
 import com.graphhopper.util.EdgeIterator;
-import com.riders.giddy.commons.persistence.store.GraphStoreImpl;
-import com.riders.giddy.router.algorithm.algorithm.weighting.similarities.CosineSimilarity;
 
 import gnu.trove.map.TIntObjectMap;
 import gnu.trove.map.hash.TIntObjectHashMap;
@@ -24,36 +20,23 @@ import static com.graphhopper.util.Parameters.Algorithms.ASTAR;
 
 public class CustomAstar extends AbstractRoutingAlgorithm {
 
-    private WeightApproximator weightApprox;
+    private HeuristicWeightApproximator weightApprox;
     private int visitedCount;
     private TIntObjectMap<AStarEntry> fromMap;
     private PriorityQueue<AStarEntry> prioQueueOpenSet;
-    private AStarEntry currEdge;
+
     private int to1 = -1;
 
-    private float[] gaugeScore;
-    private float lowerBound;
-
-    private final HeuristicService heuristicService;
 
 
     public CustomAstar(Graph g, FlagEncoder encoder, Weighting weighting, TraversalMode tMode) {
-
-
         super(g, encoder, weighting, tMode);
-
-        initCollections();
-        HeuristicWeightApproximator heuristicApprox = new HeuristicWeightApproximator(nodeAccess, weighting);
-        heuristicApprox.setDistanceCalc(new DistancePlaneProjection());
-        setApproximation(heuristicApprox);
-
-        heuristicService = new HeuristicService(new CosineSimilarity(), new GraphStoreImpl());
     }
 
     /**
      * @param approx defines how distance to goal Node is approximated
      */
-    public void setApproximation(WeightApproximator approx) {
+    public void setApproximation(HeuristicWeightApproximator approx) {
         weightApprox = approx;
     }
 
@@ -63,14 +46,9 @@ public class CustomAstar extends AbstractRoutingAlgorithm {
     }
 
     public Path computePathOnUserParameters(int from, int to, float[] gaugeScore, float lowerBound) {
-        setUserRouteParameters(gaugeScore, lowerBound);
+        weightApprox.setUserRouteParameters(gaugeScore, lowerBound);
+        initCollections();
         return calcPath(from, to);
-    }
-
-
-    private void setUserRouteParameters(float[] gaugeScore, float lowerBound) {
-        this.gaugeScore = gaugeScore;
-        this.lowerBound = lowerBound;
     }
 
     @Override
@@ -80,22 +58,20 @@ public class CustomAstar extends AbstractRoutingAlgorithm {
 
         weightApprox.setGoalNode(to);
         double weightToGoal = weightApprox.approximate(from);
-        currEdge = new AStarEntry(EdgeIterator.NO_EDGE, from, 0 + weightToGoal, 0);
+        AStarEntry currEdge = new AStarEntry(EdgeIterator.NO_EDGE, from, 0 + weightToGoal, 0);
         if (!traversalMode.isEdgeBased()) {
             fromMap.put(from, currEdge);
         }
-        return runAlgo();
+        return runAlgo(currEdge);
     }
 
-    private Path runAlgo() {
+    private Path runAlgo(AStarEntry currEdge) {
         double currWeightToGoal, estimationFullWeight;
         EdgeExplorer explorer = outEdgeExplorer;
         while (true) {
             int currVertex = currEdge.adjNode;
 
-            visitedCount++;
-
-            if (finished())
+            if (currEdge.adjNode == to1)
                 break;
 
             EdgeIterator iter = explorer.setBaseNode(currVertex);
@@ -106,15 +82,14 @@ public class CustomAstar extends AbstractRoutingAlgorithm {
                 int neighborNode = iter.getAdjNode();
                 int traversalId = traversalMode.createTraversalId(iter, false);
                 //compute the heuristic factor for the candidate edge
-                double alreadyVisitedWeight = weighting.calcWeight(iter, false, currEdge.edge) * getHeuristicFactor(iter.getBaseNode())
-                        + currEdge.weightOfVisitedPath;
+                double alreadyVisitedWeight = weighting.calcWeight(iter, false, currEdge.edge) * weightApprox.getHeuristicFactor(iter.getBaseNode()) + currEdge.weightOfVisitedPath;
                 if (Double.isInfinite(alreadyVisitedWeight))
                     continue;
 
                 AStarEntry ase = fromMap.get(traversalId);
                 if (ase == null || ase.weightOfVisitedPath > alreadyVisitedWeight) {
                     //compute the heuristic factor for next possible node
-                    currWeightToGoal = weightApprox.approximate(neighborNode) * getHeuristicFactor(neighborNode);
+                    currWeightToGoal = weightApprox.approximate(neighborNode);
                     estimationFullWeight = alreadyVisitedWeight + currWeightToGoal;
                     if (ase == null) {
                         ase = new AStarEntry(iter.getEdge(), neighborNode, estimationFullWeight, alreadyVisitedWeight);
@@ -145,22 +120,25 @@ public class CustomAstar extends AbstractRoutingAlgorithm {
         }
 
 
-        return extractPath();
-    }
-
-    @Override
-    protected Path extractPath() {
         return new Path(graph, flagEncoder).setWeight(currEdge.weight).setSPTEntry(currEdge).extract();
     }
 
     @Override
-    protected boolean finished() {
-        return currEdge.adjNode == to1;
+    @Deprecated
+    protected Path extractPath() {
+        return null;
     }
 
     @Override
+    @Deprecated
+    protected boolean finished() {
+        return true;
+    }
+
+    @Override
+    @Deprecated
     public int getVisitedNodes() {
-        return visitedCount;
+        return -1;
     }
 
     @Override
@@ -168,9 +146,6 @@ public class CustomAstar extends AbstractRoutingAlgorithm {
         return ASTAR;
     }
 
-    private double getHeuristicFactor(int nodeId) {
-        return heuristicService.getHeuristicFactor(nodeId, gaugeScore, lowerBound);
-    }
 
     public static class AStarEntry extends SPTEntry {
         double weightOfVisitedPath;

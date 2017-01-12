@@ -1,4 +1,4 @@
-package com.riders.giddy.router.algorithm.algorithm.weighting.similarities;
+package com.riders.giddy.router.algorithm.weighting.similarities;
 
 import org.apache.commons.math3.stat.correlation.PearsonsCorrelation;
 public class PearsonCorrelation implements SimilarityAlgorithm {

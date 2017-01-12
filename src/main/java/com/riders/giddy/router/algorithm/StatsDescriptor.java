@@ -1,4 +1,4 @@
-package com.riders.giddy.router.algorithm.algorithm;
+package com.riders.giddy.router.algorithm;
 
 import com.riders.giddy.commons.models.RouteEdge;
 

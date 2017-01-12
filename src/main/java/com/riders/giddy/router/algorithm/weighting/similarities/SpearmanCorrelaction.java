@@ -1,8 +1,5 @@
-package com.riders.giddy.router.algorithm.algorithm.weighting.similarities;
+package com.riders.giddy.router.algorithm.weighting.similarities;
 
-/**
- * Created by tothe on 5/25/16.
- */
 public class SpearmanCorrelaction implements SimilarityAlgorithm {
 
     @Override

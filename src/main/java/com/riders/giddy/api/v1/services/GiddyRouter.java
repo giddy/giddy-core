@@ -8,13 +8,15 @@ import com.graphhopper.routing.util.EncodingManager;
 import com.graphhopper.storage.index.QueryResult;
 import com.riders.giddy.api.v1.models.GiddyPath;
 import com.riders.giddy.api.v1.models.GiddyPoint;
-import com.riders.giddy.router.algorithm.algorithm.CustomAstar;
-import com.riders.giddy.router.algorithm.algorithm.RoutingAlgorithmFactoryCustom;
+import com.riders.giddy.commons.persistence.store.GraphStatsStore;
+import com.riders.giddy.router.algorithm.CustomAstar;
+import com.riders.giddy.router.algorithm.RoutingAlgorithmFactoryCustom;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-
-import javax.annotation.PostConstruct;
 
 import static com.graphhopper.routing.util.FlagEncoderFactory.BIKE;
 
@@ -31,26 +33,28 @@ public class GiddyRouter {
 
     private CustomAstar astar;
 
-    @PostConstruct
-    public void init() {
+    private final Logger logger = LoggerFactory.getLogger(getClass());
+
+    @Autowired
+    public GiddyRouter(GraphStatsStore store) {
         hopper = new GraphHopper();
         hopper.setEncodingManager(new EncodingManager("car,bike,foot"));
 
         initialiseOSM();
 
-        astar = RoutingAlgorithmFactoryCustom.initAstarAlgorithm(hopper.getGraphHopperStorage(),
+        RoutingAlgorithmFactoryCustom algorithmFactory = new RoutingAlgorithmFactoryCustom(store);
+        astar = algorithmFactory.initAstarAlgorithm(hopper.getGraphHopperStorage(),
                 hopper.getEncodingManager().getEncoder(BIKE));
     }
 
     private void initialiseOSM() {
-        hopper.setOSMFile("./.pbfs/" + CITY + ".osm.pbf");
+        hopper.setOSMFile("./.pbfs/cluj.osm.pbf");
         hopper.setGraphHopperLocation("./.graphs/graph_" + CITY);
-        //if (DOWNLOAD_MAP) {
         hopper.importOrLoad();
-        //}
     }
 
-    private GiddyPath computeRoute(GiddyPoint from, GiddyPoint to, float[] gaugeScore, float lowerBound) {
+    public GiddyPath computeRoute(GiddyPoint from, GiddyPoint to, float[] gaugeScore, float lowerBound) {
+        long startTime = System.currentTimeMillis();
 
         Path path = astar.computePathOnUserParameters(getNearestPoint(from),
                 getNearestPoint(to),
@@ -58,6 +62,10 @@ public class GiddyRouter {
                 lowerBound);
         GiddyPath giddyPath = new GiddyPath();
         path.calcPoints().forEach(ghPoint3D -> giddyPath.add(new GiddyPoint(ghPoint3D.lat, ghPoint3D.lon)));
+        String computationTime = String.valueOf(System.currentTimeMillis() - startTime);
+
+        logger.info("computation took " + computationTime + " ms");
+
         return giddyPath;
     }
 

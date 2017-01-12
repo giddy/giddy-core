@@ -1,9 +1,8 @@
-package com.riders.giddy.router.algorithm.algorithm;
+package com.riders.giddy.router.algorithm;
 
 
 import com.riders.giddy.commons.persistence.store.GraphStatsStore;
-import com.riders.giddy.commons.persistence.store.GraphStoreImpl;
-import com.riders.giddy.router.algorithm.algorithm.weighting.similarities.SimilarityAlgorithm;
+import com.riders.giddy.router.algorithm.weighting.similarities.SimilarityAlgorithm;
 
 /**
  * Computes the similarity of a given node based on its so far stored scores, with respect to
@@ -18,7 +17,7 @@ class HeuristicService {
 
     private final SimilarityAlgorithm similarityAlgorithm;
 
-    HeuristicService(SimilarityAlgorithm cosineSimilarityAlgorithm, GraphStoreImpl graphStatsStore) {
+    HeuristicService(SimilarityAlgorithm cosineSimilarityAlgorithm, GraphStatsStore graphStatsStore) {
         this.similarityAlgorithm = cosineSimilarityAlgorithm;
         this.graphStatsStore = graphStatsStore;
     }

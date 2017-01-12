@@ -1,4 +1,4 @@
-package com.riders.giddy.router.algorithm.algorithm.weighting.similarities;
+package com.riders.giddy.router.algorithm.weighting.similarities;
 
 import org.springframework.stereotype.Component;
 

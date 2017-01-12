@@ -1,8 +1,5 @@
-package com.riders.giddy.router.algorithm.algorithm.weighting.similarities;
+package com.riders.giddy.router.algorithm.weighting.similarities;
 
-/**
- * Created by tothe on 5/25/16.
- */
 public class EuclideanDistance implements SimilarityAlgorithm {
     @Override
     public double computeDistance(float[] p1, float[] p2) {
