@@ -1,4 +1,4 @@
-package com.riders.giddy.api.v1.services;
+package com.riders.giddy.api.v1.utils;
 
 import org.springframework.stereotype.Service;
 

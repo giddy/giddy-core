@@ -20,6 +20,4 @@ public class BaseTest {
 
     @InjectMocks
     GiddyRouter router;
-
-
 }
