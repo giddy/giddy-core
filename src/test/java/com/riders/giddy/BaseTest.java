@@ -1,14 +1,25 @@
 package com.riders.giddy;
 
+import com.riders.giddy.api.v1.services.GiddyRouter;
+import com.riders.giddy.commons.persistence.store.GraphStatsStore;
+
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Spy;
+import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
 
-@RunWith(SpringRunner.class)
+@RunWith(MockitoJUnitRunner.class)
 @EnableAutoConfiguration
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class BaseTest {
 
-    Map
+    @Spy
+    private GraphStatsStore statsStore = new MockedGraphStore();
+
+    @InjectMocks
+    GiddyRouter router;
+
+
 }

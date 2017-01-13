@@ -4,9 +4,11 @@ buildscript {
     }
     repositories {
         mavenCentral()
+        jcenter()
     }
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        dependencies { testCompile "org.mockito:mockito-core:1.+" }
     }
 }
 
