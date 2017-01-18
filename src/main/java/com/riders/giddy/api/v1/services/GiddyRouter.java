@@ -1,10 +1,14 @@
 package com.riders.giddy.api.v1.services;
 
 import com.graphhopper.GraphHopper;
+import com.graphhopper.matching.LocationIndexMatch;
+import com.graphhopper.matching.MapMatching;
 import com.graphhopper.routing.Path;
 import com.graphhopper.routing.util.DefaultEdgeFilter;
 import com.graphhopper.routing.util.EdgeFilter;
 import com.graphhopper.routing.util.EncodingManager;
+import com.graphhopper.storage.GraphHopperStorage;
+import com.graphhopper.storage.index.LocationIndexTree;
 import com.graphhopper.storage.index.QueryResult;
 import com.riders.giddy.api.v1.models.GiddyPath;
 import com.riders.giddy.api.v1.models.GiddyPoint;
@@ -22,6 +26,9 @@ import static com.graphhopper.routing.util.FlagEncoderFactory.BIKE;
 
 @Component
 public class GiddyRouter {
+
+    private static final float[] DEFAULT_GAUGE = new float[]{1, 1, 1, 1, 1, 1};
+    private static final float DEFAULT_LOWER_BOUND = 1;
 
     @Value("${city}") // found in src/main/resources/application.properties
     private String CITY;
@@ -65,19 +72,28 @@ public class GiddyRouter {
         String computationTime = String.valueOf(System.currentTimeMillis() - startTime);
 
         logger.info("computation took " + computationTime + " ms");
-
+        logger.info("path description:" + path.getDebugInfo());
         return giddyPath;
     }
 
     public GiddyPath computeRoute(GiddyPoint from, GiddyPoint to) {
-        float[] defaultGauge = {1, 1, 1, 1, 1, 1};
-        float defaultLowerBound = 1;
-        return computeRoute(from, to, defaultGauge, defaultLowerBound);
+        return computeRoute(from, to, DEFAULT_GAUGE, DEFAULT_LOWER_BOUND);
     }
 
     private int getNearestPoint(GiddyPoint point) {
         EdgeFilter edgeFilter = new DefaultEdgeFilter(hopper.getEncodingManager().getEncoder(BIKE));
         QueryResult res = hopper.getLocationIndex().findClosest(point.getLat(), point.getLon(), edgeFilter);
         return res.getClosestNode();
+    }
+
+    public MapMatching buildMapMatching() {
+        GraphHopperStorage graph = hopper.getGraphHopperStorage();
+        LocationIndexMatch locationIndex = new LocationIndexMatch(graph,
+                (LocationIndexTree) hopper.getLocationIndex());
+        return new MapMatching(graph, locationIndex, hopper.getEncodingManager().getEncoder(BIKE));
+    }
+
+    protected GraphHopper getHopper() {
+        return hopper;
     }
 }

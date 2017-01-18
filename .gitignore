@@ -30,6 +30,7 @@ build/
 *.classpath
 *.project
 *.settings
+.graphs
 /bin
 /subprojects/*/bin
 atlassian-ide-plugin.xml

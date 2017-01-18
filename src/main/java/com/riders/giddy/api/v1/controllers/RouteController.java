@@ -2,6 +2,7 @@ package com.riders.giddy.api.v1.controllers;
 
 import com.riders.giddy.api.v1.models.GiddyPoint;
 import com.riders.giddy.api.v1.services.GiddyRouter;
+
 import org.jsondoc.core.annotation.Api;
 import org.jsondoc.core.annotation.ApiMethod;
 import org.jsondoc.core.annotation.ApiQueryParam;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
 @Api(name = "giddy-core", description = "This is the core routing API of Giddy")
@@ -22,7 +24,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
 public class RouteController {
 
  @Autowired
- private GiddyRouter giddyHopper;
+ private GiddyRouter giddyRouter;
 
  @ApiMethod(description = "Please document api methods here")
  @RequestMapping(value = "/route", method = GET)
@@ -41,6 +43,6 @@ public class RouteController {
                       @ApiQueryParam(description = "This is longitude to")
                       @RequestParam(value = "lonTo", required = false)
                            double lonTo) {
-     return giddyHopper.computeRoute(new GiddyPoint(latFrom, lonFrom), new GiddyPoint(latTo, lonTo)).toString();
+     return giddyRouter.computeRoute(new GiddyPoint(latFrom, lonFrom), new GiddyPoint(latTo, lonTo)).toString();
  }
 }
