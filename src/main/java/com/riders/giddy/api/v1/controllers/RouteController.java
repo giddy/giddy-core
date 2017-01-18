@@ -2,7 +2,6 @@ package com.riders.giddy.api.v1.controllers;
 
 import com.riders.giddy.api.v1.models.GiddyPoint;
 import com.riders.giddy.api.v1.services.GiddyRouter;
-
 import org.jsondoc.core.annotation.Api;
 import org.jsondoc.core.annotation.ApiMethod;
 import org.jsondoc.core.annotation.ApiQueryParam;
@@ -12,10 +11,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
 @Api(name = "giddy-core", description = "This is the core routing API of Giddy")
+
 @ApiVersion(since = "v1")
 
 @RestController

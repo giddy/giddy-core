@@ -1,60 +1,28 @@
-# Giddy Core
-
-Routing Library using Graphhopper
-
-## IDE Setup
-
-1. Get the styleguides from here for your ide: [Google Style Guides](https://github.com/google/styleguide)
-2. Install them.
-
-For IntelliJ:
-
-0. [Download](https://raw.githubusercontent.com/google/styleguide/gh-pages/intellij-java-google-style.xml)
-1. Preferences -> Editor -> Code Style -> Manage 
-2. Import 'IntelliJ IDEA Code Style XML' 
-3. After importing select it from the list -> press 'Copy to project'
-
-## Gitlab CI locally
-  
-    docker-machine start
-    eval $(docker-machine env default)
-    docker run -d --name gitlab-runner --restart always \
-               -v /srv/gitlab-runner/config:/etc/gitlab-runner \
-               gitlab/gitlab-runner:latest
-    gitlab-ci-multi-runner exec docker build
-
-  
-## Build
-
-1. Install [Gradle](https://gradle.org/gradle-download/).
-2. `./gradlew -q downloadMap` to download the pbf file.
-3. `/gradlew build` to create the jar.
-
-## Usage
-
-TODO: Write usage instructions
+# giddy-core
 
 
-## JSONDoc
+### Local Setup
 
-You can go to http://localhost:8080/jsondoc-ui.html, insert http://localhost:8080/jsondoc in the box and get the documentation.
+1. Add to **/etc/environment** or **~/.bashrc** or **~/.zshrc**:
+    `
+    export GIDDY_POSTGRES_DB_HOST="localhost"
+    export GIDDY_POSTGRES_DB_USERNAME=""
+    export GIDDY_POSTGRES_DB_PASSWORD=""
+    `
+2. `source ~/.zshrc`
+3. `exec zsh`
 
-## Contributing
+### Prodcution Setup
 
-1. Fork it!
-2. Create your feature branch: `git checkout -b my-new-feature`
-3. Commit your changes: `git commit -am 'Add some feature'`
-4. Push to the branch: `git push origin my-new-feature`
-5. Submit a pull request :D
-
-## History
-
-TODO: Write history
-
-## Credits
-
-TODO: Write credits
-
-## License
-
-TODO: Write license
+1. Add to **/etc/environment** or **~/.bashrc** or **~/.zshrc**:
+    `
+    export GIDDY_POSTGRES_DB_HOST=[replace with value]
+    export GIDDY_POSTGRES_DB_USERNAME=[replace with value]
+    export GIDDY_POSTGRES_DB_PASSWORD=[replace with value]
+    export AWS_ACCESS_KEY_ID=[replace with value]
+    export AWS_SECRET_ACCESS_KEY=[replace with value]
+    export AWS_REGION=[replace with value]
+    export S3_BUCKET_NAME=[replace with value]
+    `
+2. `source ~/.zshrc`
+3. `exec zsh`

@@ -1,4 +1,28 @@
-image: frekele/gradle
+image: java:openjdk-8-jdk
+
+services:
+  - postgres:latest
+
+variables:
+  POSTGRES_DB: giddy
+  POSTGRES_HOST: $GIDDY_POSTGRES_DB_HOST
+  POSTGRES_USER: $GIDDY_POSTGRES_DB_USERNAME
+  POSTGRES_PASSWORD: $GIDDY_POSTGRES_DB_PASSWORD
+
+before_script:
+  - export GRADLE_USER_HOME=`pwd`/.gradle
+
+cache:
+  paths:
+    - .gradle/wrapper
+    - .gradle/caches
 
 build:
-  script: "gradle clean build"
+  stage: build
+  script:
+    - ./gradlew assemble
+
+test:
+  stage: test
+  script:
+    - ./gradlew check
