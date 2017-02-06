@@ -41,13 +41,12 @@ springBoot {
 }
 
 configurations {
-    runtime.exclude group: "org.slf4j", module: "slf4j-log4j12"
+    all*.exclude module: 'spring-boot-starter-logging'
 }
 
 dependencies {
     compile('org.springframework.boot:spring-boot-starter-web')
     compile('org.springframework.boot:spring-boot-starter-data-jpa')
-    compile("org.springframework.boot:spring-boot-starter-security")
 
     compile group: 'org.jsondoc', name: 'spring-boot-starter-jsondoc', version: '1.2.16'
     compile group: 'org.jsondoc', name: 'jsondoc-ui-webjar', version: '1.2.16'

@@ -1,32 +1,11 @@
 package com.riders.giddy.api.v1.services.s3;
 
-import com.amazonaws.services.s3.AmazonS3Client;
-import com.amazonaws.services.s3.model.*;
-import org.apache.commons.io.IOUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
 
 @Service
 public class S3Wrapper {
-
-	@Autowired
+/*
+    @Autowired
 	private AmazonS3Client amazonS3Client;
 
 	@Value("${cloud.aws.s3.bucket}")
@@ -93,5 +72,5 @@ public class S3Wrapper {
 		List<S3ObjectSummary> s3ObjectSummaries = objectListing.getObjectSummaries();
 
 		return s3ObjectSummaries;
-	}
+	}*/
 }
