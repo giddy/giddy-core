@@ -8,12 +8,11 @@ buildscript {
     }
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
-        dependencies { testCompile "org.mockito:mockito-core:1.+" }
         classpath("se.transmode.gradle:gradle-docker:1.2")
     }
 }
 
-group = 'robikovacs'
+group = 'giddy'
 
 apply plugin: 'java'
 apply plugin: 'eclipse'
@@ -41,9 +40,14 @@ springBoot {
     executable = true
 }
 
+configurations {
+    runtime.exclude group: "org.slf4j", module: "slf4j-log4j12"
+}
+
 dependencies {
     compile('org.springframework.boot:spring-boot-starter-web')
     compile('org.springframework.boot:spring-boot-starter-data-jpa')
+    compile("org.springframework.boot:spring-boot-starter-security")
 
     compile group: 'org.jsondoc', name: 'spring-boot-starter-jsondoc', version: '1.2.16'
     compile group: 'org.jsondoc', name: 'jsondoc-ui-webjar', version: '1.2.16'
@@ -62,9 +66,13 @@ dependencies {
     compile("commons-io:commons-io:2.4")
 
     compile group: 'org.springframework.data', name: 'spring-data-jpa', version: '1.10.5.RELEASE'
-    compile group: 'postgresql', name: 'postgresql', version: '9.1-901-1.jdbc4'
+    compile(group: 'postgresql', name: 'postgresql', version: '9.1-901-1.jdbc4') {
+        exclude group: 'org.slf4j'
+        exclude group: 'org.log4j'
+    }
 
     testCompile('org.springframework.boot:spring-boot-starter-test')
+    testCompile("org.mockito:mockito-core:1.+")
 }
 
 task downloadMap(type:Exec) {

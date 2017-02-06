@@ -80,9 +80,8 @@ atlassian-ide-plugin.xml
 
 # Giddy
 .pbfs/
-graphs/
+.graphs/
 classes/
 build/
-graphs/
 osm_files/
 *.pbf

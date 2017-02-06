@@ -52,6 +52,4 @@ public class SessionRouteSaveTest extends BaseTest {
         assert sizePathOne == sizePathTwo;
         logger.info("Test finished: resulted path sizes are " + String.valueOf(sizePathOne) + " " + String.valueOf(sizePathTwo));
     }
-
-
 }

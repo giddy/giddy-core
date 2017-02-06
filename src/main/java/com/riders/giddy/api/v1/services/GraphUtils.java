@@ -1,19 +1,25 @@
-package com.riders.giddy.api.v1.utils;
+package com.riders.giddy.api.v1.services;
 
-import org.springframework.stereotype.Service;
+import com.graphhopper.GraphHopper;
+import com.graphhopper.matching.EdgeMatch;
+import com.graphhopper.util.EdgeIterator;
+import com.graphhopper.util.shapes.GHPoint;
 
-@Service
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.List;
+
+@Component
 class GraphUtils {
-/*
-    private GiddyRouter giddyHopper;
-    private GraphHopperStorage graph;
+    private GraphHopper giddyHopper;
 
 
     @Autowired
     public GraphUtils(GiddyRouter giddyHopper) {
 
-        this.giddyHopper = giddyHopper;
-        graph = giddyHopper.getGraphHopperStorage();
+        this.giddyHopper = giddyHopper.getHopper();
     }
 
     public int getEdgeIdByMatch(EdgeMatch edgeMatch) {
@@ -30,8 +36,7 @@ class GraphUtils {
 
 
     public List<Integer> getAdjNodes(int baseNode) {
-        EdgeIterator edgeIterator = graph.createEdgeExplorer().setBaseNode(baseNode);
-        //         edgeIterator.setDistance(distance);
+        EdgeIterator edgeIterator = giddyHopper.getGraphHopperStorage().createEdgeExplorer().setBaseNode(baseNode);
         List<Integer> adjNodeIds = new ArrayList<Integer>();
         while (edgeIterator.next()) {
 
@@ -42,12 +47,9 @@ class GraphUtils {
     }
 
     public GHPoint getPointById(int nodeId) {
-        return new GHPoint(graph.getNodeAccess().getLat(nodeId), graph.getNodeAccess().getLon(nodeId));
+        return new GHPoint(giddyHopper.getGraphHopperStorage().getNodeAccess().getLat(nodeId),
+                giddyHopper.getGraphHopperStorage().getNodeAccess().getLon(nodeId));
 
-    }
-
-    public int getEdgeByBaseCoords(double lat, double lon) {
-        return giddyHopper.findEdgeId(lat, lon);
     }
 
 
@@ -73,5 +75,5 @@ class GraphUtils {
             }
         }
         return -1;
-    }*/
+    }
 }
