@@ -1,32 +1,35 @@
 package com.riders.giddy.tests;
 
-import com.riders.giddy.api.v1.models.GiddyPath;
-import com.riders.giddy.api.v1.models.GiddyPoint;
-import com.riders.giddy.api.v1.services.GiddyRouter;
-import com.riders.giddy.commons.persistence.store.GiddyScoreServiceI;
-import com.riders.giddy.commons.persistence.store.entities.StatNames;
+import com.riders.giddy.api.v1.models.common.GiddyPath;
+import com.riders.giddy.api.v1.models.common.GiddyPoint;
+import com.riders.giddy.api.v1.models.score.StatNames;
+import com.riders.giddy.api.v1.services.core.GiddyRouter;
+import com.riders.giddy.api.v1.services.score.GiddyScoreServiceI;
+import com.riders.giddy.mocks.MockedGraphStore;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.Map;
 
-import static com.riders.giddy.api.v1.services.GiddyScoreHelper.buildStatsMap;
+import static com.riders.giddy.api.v1.services.core.utils.GiddyScoreHelper.buildStatsMap;
 import static org.junit.Assert.assertTrue;
 
 @RunWith(MockitoJUnitRunner.class)
-public class RoutingTest extends BaseTest {
+@EnableAutoConfiguration
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+public class RoutingTest {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
-    @Spy
     @Autowired
     @InjectMocks
     GiddyRouter giddyRouter;
@@ -36,7 +39,6 @@ public class RoutingTest extends BaseTest {
 
     @Test
     public void givenSameStartAndFinishPoints_whenComputedRoutesForDifferentGaugeScores_thenDifferentPathsAreResulted() {
-
         //Given
         GiddyPoint start = new GiddyPoint(46.7540808, 23.5849463);
         GiddyPoint finish = new GiddyPoint(46.7649881, 23.619064);

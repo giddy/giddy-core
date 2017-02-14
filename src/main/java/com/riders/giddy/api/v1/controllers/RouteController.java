@@ -1,7 +1,7 @@
 package com.riders.giddy.api.v1.controllers;
 
-import com.riders.giddy.api.v1.models.GiddyPoint;
-import com.riders.giddy.api.v1.services.GiddyRouter;
+import com.riders.giddy.api.v1.models.common.GiddyPoint;
+import com.riders.giddy.api.v1.services.core.GiddyRouter;
 
 import org.jsondoc.core.annotation.Api;
 import org.jsondoc.core.annotation.ApiMethod;

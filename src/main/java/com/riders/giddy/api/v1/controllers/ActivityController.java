@@ -1,10 +1,10 @@
 package com.riders.giddy.api.v1.controllers;
 
+import com.riders.giddy.api.v1.models.score.embeddable.GiddyScoreDescriptor;
+import com.riders.giddy.api.v1.services.core.dispatcher.RouteDispatcher;
+import com.riders.giddy.api.v1.services.core.utils.ValidationError;
+import com.riders.giddy.api.v1.services.core.utils.ValidationErrorBuilder;
 import com.riders.giddy.api.v1.services.s3.S3Wrapper;
-import com.riders.giddy.api.v1.utils.ValidationError;
-import com.riders.giddy.api.v1.utils.ValidationErrorBuilder;
-import com.riders.giddy.commons.persistence.store.entities.GiddyScoreDescriptor;
-import com.riders.giddy.dispatcher.RouteDispatcher;
 
 import org.jsondoc.core.annotation.Api;
 import org.jsondoc.core.annotation.ApiMethod;
