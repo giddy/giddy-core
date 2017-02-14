@@ -1,47 +1,20 @@
 package com.riders.giddy.api.v1.models;
 
+import javax.persistence.Embeddable;
 
-import org.hibernate.validator.constraints.NotBlank;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-
-@Entity
+@Embeddable
 public class GiddyScore {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    Integer id;
-
-    @NotBlank(message = "edgeId must not be blank!")
-    @Column
-    private Integer edgeId;
-
-    @NotBlank(message = "safe must not be blank!")
-    @Column
     private Integer safe;
 
-    @NotBlank(message = "touristy must not be blank!")
-    @Column
     private Integer touristy;
 
-    @NotBlank(message = "recreational must not be blank!")
-    @Column
     private Integer recreational;
 
-    @NotBlank(message = "fast must not be blank!")
-    @Column
     private Integer fast;
 
-    @NotBlank(message = "challenging must not be blank!")
-    @Column
     private Integer challenging;
 
-    @NotBlank(message = "crowded must not be blank!")
-    @Column
     private Integer crowded;
 
     public GiddyScore() {
@@ -59,6 +32,14 @@ public class GiddyScore {
         this.recreational = recreational;
         this.fast = fast;
         this.challenging = challenging;
+        this.crowded = crowded;
+    }
+
+    public Integer getCrowded() {
+        return crowded;
+    }
+
+    public void setCrowded(Integer crowded) {
         this.crowded = crowded;
     }
 
@@ -100,25 +81,5 @@ public class GiddyScore {
 
     public void setChallenging(Integer challenging) {
         this.challenging = challenging;
-    }
-
-    public Integer getCrowded() {
-        return crowded;
-    }
-
-    public void setCrowded(Integer crowded) {
-        this.crowded = crowded;
-    }
-
-    public Integer getEdgeId() {
-        return edgeId;
-    }
-
-    public void setEdgeId(Integer edgeId) {
-        this.edgeId = edgeId;
-    }
-
-    public float[] toFloat() {
-        return new float[0];
     }
 }

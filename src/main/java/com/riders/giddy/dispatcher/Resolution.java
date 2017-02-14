@@ -31,8 +31,8 @@ class Resolution {
         return true;
     }
 
-    public static void addStats(StatsDescriptor clientStats, File descriptor) {
-        //StatsDescriptor stats=null;
+    public static void updateStats(GiddyScoreDescriptor clientStats, File descriptor) {
+        //GiddyScoreDescriptor stats=null;
         try {
             JSONParser parser;
             parser = new JSONParser();
@@ -42,13 +42,13 @@ class Resolution {
 
             //"stats":{"safe":0,"touristy":0,"recreational":0,"fast":0,"challenging":0,"crowded":0}
 
-            clientStats.addStats(
-                    toIntExact((Long) jsonStats.get(StatsDescriptor.SAFE)),
-                    toIntExact((Long) jsonStats.get(StatsDescriptor.TOURISTY)),
-                    toIntExact((Long) jsonStats.get(StatsDescriptor.RECREATIONAL)),
-                    toIntExact((Long) jsonStats.get(StatsDescriptor.FAST)),
-                    toIntExact((Long) jsonStats.get(StatsDescriptor.CHALLENGING)),
-                    toIntExact((Long) jsonStats.get(StatsDescriptor.CROWDED))
+            clientStats.updateStats(
+                    toIntExact((Long) jsonStats.get(GiddyScoreDescriptor.SAFE)),
+                    toIntExact((Long) jsonStats.get(GiddyScoreDescriptor.TOURISTY)),
+                    toIntExact((Long) jsonStats.get(GiddyScoreDescriptor.RECREATIONAL)),
+                    toIntExact((Long) jsonStats.get(GiddyScoreDescriptor.FAST)),
+                    toIntExact((Long) jsonStats.get(GiddyScoreDescriptor.CHALLENGING)),
+                    toIntExact((Long) jsonStats.get(GiddyScoreDescriptor.CROWDED))
             );
         } catch (ParseException e) {
             e.printStackTrace();
@@ -60,11 +60,11 @@ class Resolution {
 
     }
 
-    public Map<Integer, StatsDescriptor> assessGpxLogs(List<SessionFiles> sessions) {
+    public Map<Integer, GiddyScoreDescriptor> assessGpxLogs(List<SessionFiles> sessions) {
         System.out.println("received latest sessions...");
 
         Resolution resolution = new Resolution();
-        Map<Integer,StatsDescriptor> edgeRepo=new HashMap<>();
+        Map<Integer,GiddyScoreDescriptor> edgeRepo=new HashMap<>();
         System.out.println("start point matching to edges");
         SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
 
@@ -81,18 +81,18 @@ class Resolution {
                         int edgeId = graphUtils.getEdgeIdByMatch(edgeMatch);
                         int baseId = graphUtils.getBaseNodeIdByMatch(edgeMatch);
                         int adjId=graphUtils.getAdjNodeIdByMatch(edgeMatch);
-                        StatsDescriptor userStats;
+                        GiddyScoreDescriptor userStats;
                         if(edgeRepo.containsKey(baseId)){
                             userStats=edgeRepo.get(baseId);
 
                         }else{
-                            userStats=new StatsDescriptor();
+                            userStats=new GiddyScoreDescriptor();
 
                             RouteEdge edge=new RouteEdge(edgeId,adjId,baseId);
                             edge.setDescriptor(userStats);
                             userStats.setEdge(edge);
                         }
-                        addStats(userStats,session.getDescriptor());
+                        updateStats(userStats,session.getDescriptor());
 
                         edgeRepo.put(baseId,userStats);
 

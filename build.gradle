@@ -47,6 +47,8 @@ configurations {
 dependencies {
     compile('org.springframework.boot:spring-boot-starter-web')
     compile('org.springframework.boot:spring-boot-starter-data-jpa')
+    // https://mvnrepository.com/artifact/org.springframework.data/spring-data-jpa
+    compile group: 'org.springframework.data', name: 'spring-data-jpa', version: '1.0.0.RELEASE'
 
     compile group: 'org.jsondoc', name: 'spring-boot-starter-jsondoc', version: '1.2.16'
     compile group: 'org.jsondoc', name: 'jsondoc-ui-webjar', version: '1.2.16'

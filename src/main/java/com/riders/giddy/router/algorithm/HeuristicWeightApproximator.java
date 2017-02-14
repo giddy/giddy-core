@@ -5,8 +5,11 @@ import com.graphhopper.routing.util.Weighting;
 import com.graphhopper.storage.NodeAccess;
 import com.graphhopper.util.DistanceCalc;
 import com.graphhopper.util.Helper;
-import com.riders.giddy.commons.persistence.store.GraphStatsStore;
+import com.riders.giddy.commons.persistence.store.GiddyScoreServiceI;
+import com.riders.giddy.commons.persistence.store.entities.StatNames;
 import com.riders.giddy.router.algorithm.weighting.similarities.CosineSimilarity;
+
+import java.util.Map;
 
 public class HeuristicWeightApproximator implements WeightApproximator {
 
@@ -16,14 +19,14 @@ public class HeuristicWeightApproximator implements WeightApproximator {
     private double toLat, toLon;
 
 
-    private float[] gaugeScore;
+    private Map<StatNames, Float> gaugeScore;
     private float lowerBound;
 
     private final HeuristicService heuristicService;
-    private final GraphStatsStore store;
+    private final GiddyScoreServiceI store;
 
 
-    public HeuristicWeightApproximator(NodeAccess nodeAccess, Weighting weighting, GraphStatsStore store) {
+    public HeuristicWeightApproximator(NodeAccess nodeAccess, Weighting weighting, GiddyScoreServiceI store) {
         this.nodeAccess = nodeAccess;
         this.weighting = weighting;
         heuristicService = new HeuristicService(new CosineSimilarity(), store);
@@ -63,7 +66,7 @@ public class HeuristicWeightApproximator implements WeightApproximator {
         return heuristicService.getHeuristicFactor(nodeId, gaugeScore, lowerBound);
     }
 
-    void setUserRouteParameters(float[] gaugeScore, float lowerBound) {
+    void setUserRouteParameters(Map<StatNames, Float> gaugeScore, float lowerBound) {
         this.gaugeScore = gaugeScore;
         this.lowerBound = lowerBound;
     }

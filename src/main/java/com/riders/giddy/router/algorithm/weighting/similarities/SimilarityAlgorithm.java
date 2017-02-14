@@ -1,5 +1,9 @@
 package com.riders.giddy.router.algorithm.weighting.similarities;
 
+import com.riders.giddy.commons.persistence.store.entities.StatNames;
+
+import java.util.Map;
+
 public interface SimilarityAlgorithm {
-    double computeDistance(float[] p1, float[] p2);
+    double computeDistance(Map<StatNames, Float> p1, Map<StatNames, Float> p2);
 }

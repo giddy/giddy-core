@@ -1,16 +1,18 @@
 package com.riders.giddy.api.v1.models;
 
+import com.riders.giddy.api.v1.models.dao.GiddyEdgeScore;
+
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.multipart.MultipartFile;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import java.util.UUID;
-
-/**
- * Created by rik on 12/30/16.
- */
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
+import javax.persistence.Transient;
 
 @Entity
 public class GiddyActivity {
@@ -35,7 +37,7 @@ public class GiddyActivity {
     private String fileName;
 
     @OneToOne(cascade=CascadeType.ALL)
-    private GiddyScore giddyScore;
+    private GiddyEdgeScore giddyScore;
 
     @Value("${cloud.aws.s3.public_url}")
     @Transient
@@ -76,11 +78,11 @@ public class GiddyActivity {
         this.fileName = fileName;
     }
 
-    public GiddyScore getGiddyScore() {
+    public GiddyEdgeScore getGiddyScore() {
         return giddyScore;
     }
 
-    public void setGiddyScore(GiddyScore giddyScore) {
+    public void setGiddyScore(GiddyEdgeScore giddyScore) {
         this.giddyScore = giddyScore;
     }
 

@@ -12,7 +12,8 @@ import com.graphhopper.storage.index.LocationIndexTree;
 import com.graphhopper.storage.index.QueryResult;
 import com.riders.giddy.api.v1.models.GiddyPath;
 import com.riders.giddy.api.v1.models.GiddyPoint;
-import com.riders.giddy.commons.persistence.store.GraphStatsStore;
+import com.riders.giddy.commons.persistence.store.GiddyScoreServiceI;
+import com.riders.giddy.commons.persistence.store.entities.StatNames;
 import com.riders.giddy.router.algorithm.CustomAstar;
 import com.riders.giddy.router.algorithm.RoutingAlgorithmFactoryCustom;
 
@@ -22,13 +23,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import java.util.Map;
+
 import static com.graphhopper.routing.util.FlagEncoderFactory.BIKE;
+import static com.riders.giddy.api.v1.services.GiddyScoreHelper.buildStatsMap;
 
 @Component
 public class GiddyRouter {
 
-    private static final float[] DEFAULT_GAUGE = new float[]{1, 1, 1, 1, 1, 1};
-    private static final float DEFAULT_LOWER_BOUND = 1;
+    private final Map<StatNames, Float> DEFAULT_GAUGE = buildStatsMap(1, 1, 1, 1, 1, 1);
+    private final float DEFAULT_LOWER_BOUND = 1;
 
     @Value("${city}") // found in src/main/resources/application.properties
     private String CITY;
@@ -40,10 +44,10 @@ public class GiddyRouter {
 
     private CustomAstar astar;
 
-    private final Logger logger = LoggerFactory.getLogger(getClass());
+    private final Logger logger = LoggerFactory.getLogger(GiddyRouter.class);
 
     @Autowired
-    public GiddyRouter(GraphStatsStore store) {
+    public GiddyRouter(GiddyScoreServiceI store) {
         hopper = new GraphHopper();
         hopper.setEncodingManager(new EncodingManager("car,bike,foot"));
 
@@ -60,7 +64,7 @@ public class GiddyRouter {
         hopper.importOrLoad();
     }
 
-    public GiddyPath computeRoute(GiddyPoint from, GiddyPoint to, float[] gaugeScore, float lowerBound) {
+    public GiddyPath computeRoute(GiddyPoint from, GiddyPoint to, Map<StatNames, Float> gaugeScore, float lowerBound) {
         long startTime = System.currentTimeMillis();
 
         Path path = astar.computePathOnUserParameters(getNearestPoint(from),

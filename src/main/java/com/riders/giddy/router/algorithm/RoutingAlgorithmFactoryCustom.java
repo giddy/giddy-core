@@ -7,7 +7,7 @@ import com.graphhopper.routing.util.FlagEncoder;
 import com.graphhopper.routing.util.ShortestWeighting;
 import com.graphhopper.storage.Graph;
 import com.graphhopper.util.Helper;
-import com.riders.giddy.commons.persistence.store.GraphStatsStore;
+import com.riders.giddy.commons.persistence.store.GiddyScoreServiceI;
 
 import org.springframework.stereotype.Component;
 
@@ -16,9 +16,9 @@ import static com.graphhopper.util.Parameters.Algorithms.ASTAR;
 @Component
 public class RoutingAlgorithmFactoryCustom implements RoutingAlgorithmFactory {
 
-    private final GraphStatsStore store;
+    private final GiddyScoreServiceI store;
 
-    public RoutingAlgorithmFactoryCustom(GraphStatsStore store) {
+    public RoutingAlgorithmFactoryCustom(GiddyScoreServiceI store) {
         this.store = store;
     }
 
@@ -42,8 +42,7 @@ public class RoutingAlgorithmFactoryCustom implements RoutingAlgorithmFactory {
     @Override
     @Deprecated
     public RoutingAlgorithm createAlgo(Graph g, AlgorithmOptions opts) {
-        CustomAstar aStar = new CustomAstar(g, opts.getFlagEncoder(), opts.getWeighting(), opts.getTraversalMode());
-        return aStar;
+        return new CustomAstar(g, opts.getFlagEncoder(), opts.getWeighting(), opts.getTraversalMode());
     }
 
 }

@@ -12,13 +12,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-class GraphUtils {
+public class GraphUtils {
     private GraphHopper giddyHopper;
 
 
     @Autowired
     public GraphUtils(GiddyRouter giddyHopper) {
-
         this.giddyHopper = giddyHopper.getHopper();
     }
 
@@ -37,7 +36,7 @@ class GraphUtils {
 
     public List<Integer> getAdjNodes(int baseNode) {
         EdgeIterator edgeIterator = giddyHopper.getGraphHopperStorage().createEdgeExplorer().setBaseNode(baseNode);
-        List<Integer> adjNodeIds = new ArrayList<Integer>();
+        List<Integer> adjNodeIds = new ArrayList<>();
         while (edgeIterator.next()) {
 
             adjNodeIds.add(edgeIterator.getAdjNode());

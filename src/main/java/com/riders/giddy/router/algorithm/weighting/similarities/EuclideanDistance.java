@@ -1,16 +1,17 @@
 package com.riders.giddy.router.algorithm.weighting.similarities;
 
-public class EuclideanDistance implements SimilarityAlgorithm {
-    @Override
-    public double computeDistance(float[] p1, float[] p2) {
-        if (p1.length != p2.length) {
-            return -2;
-        }
+import com.riders.giddy.commons.persistence.store.entities.StatNames;
 
+import java.util.Map;
+
+public class EuclideanDistance implements SimilarityAlgorithm {
+
+    @Override
+    public double computeDistance(Map<StatNames, Float> p1, Map<StatNames, Float> p2) {
         double distance = 0;
-        for (int i = 0; i < p1.length; i++) {
-            distance += (p1[i] - p2[i]) * (p1[i] - p2[i]);
+        for (Map.Entry<StatNames, Float> stat : p1.entrySet()) {
+            distance += Math.pow(stat.getValue() - p2.get(stat.getKey()), 2);
         }
-        return Math.sqrt(distance) / (2 * p1.length);
+        return Math.sqrt(distance) / (2 * p1.size());
     }
 }

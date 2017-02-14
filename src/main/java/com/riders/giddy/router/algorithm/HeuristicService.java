@@ -1,8 +1,12 @@
 package com.riders.giddy.router.algorithm;
 
 
-import com.riders.giddy.commons.persistence.store.GraphStatsStore;
+import com.riders.giddy.commons.persistence.store.GiddyScoreServiceI;
+import com.riders.giddy.commons.persistence.store.entities.GiddyScoreDescriptor;
+import com.riders.giddy.commons.persistence.store.entities.StatNames;
 import com.riders.giddy.router.algorithm.weighting.similarities.SimilarityAlgorithm;
+
+import java.util.Map;
 
 /**
  * Computes the similarity of a given node based on its so far stored scores, with respect to
@@ -13,31 +17,30 @@ import com.riders.giddy.router.algorithm.weighting.similarities.SimilarityAlgori
  */
 class HeuristicService {
 
-    private final GraphStatsStore graphStatsStore;
+    private final GiddyScoreServiceI giddyScoreServiceI;
 
     private final SimilarityAlgorithm similarityAlgorithm;
 
-    HeuristicService(SimilarityAlgorithm cosineSimilarityAlgorithm, GraphStatsStore graphStatsStore) {
+    HeuristicService(SimilarityAlgorithm cosineSimilarityAlgorithm, GiddyScoreServiceI giddyScoreServiceI) {
         this.similarityAlgorithm = cosineSimilarityAlgorithm;
-        this.graphStatsStore = graphStatsStore;
+        this.giddyScoreServiceI = giddyScoreServiceI;
     }
 
-    public double getHeuristicFactor(Integer nodeId, float[] gaugeScore, float lowerBound) {
+    public double getHeuristicFactor(Integer nodeId, Map<StatNames, Float> gaugeScore, float lowerBound) {
      if (nodeId == null || gaugeScore == null) {
             return 1;//algorithmService.getNeutralFactor();
         }
 
-        StatsDescriptor nodeDescriptor = graphStatsStore.getDescriptorByNode(nodeId);
-        if (nodeDescriptor != null) {
-            return calculateHeuristicFacort(nodeDescriptor, gaugeScore, lowerBound);
+        GiddyScoreDescriptor graphEdgeDescriptor = giddyScoreServiceI.getDescriptorByNode(nodeId);
+        if (graphEdgeDescriptor != null) {
+            return calculateHeuristicFactor(graphEdgeDescriptor, gaugeScore, lowerBound);
         }
         return 1;//algorithmService.getNeutralFactor();
-
     }
 
-    private double calculateHeuristicFacort(StatsDescriptor userStats, float[] gaugeScore, float lowerBound) {
+    private double calculateHeuristicFactor(GiddyScoreDescriptor graphEdgeDescriptor, Map<StatNames, Float> gaugeScore, float lowerBound) {
         //moves the interval of (-1,1), resulted from cosine similarity to (1,k), where k is <1
-        double similarity = similarityAlgorithm.computeDistance(userStats.getNormalisedScores(), gaugeScore);
+        double similarity = similarityAlgorithm.computeDistance(graphEdgeDescriptor.getStatsMap(), gaugeScore);
         return computeWeightFactor(similarity, lowerBound);
     }
 

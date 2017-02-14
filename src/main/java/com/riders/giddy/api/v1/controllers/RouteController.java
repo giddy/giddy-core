@@ -16,9 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
 @Api(name = "giddy-core", description = "This is the core routing API of Giddy")
-
 @ApiVersion(since = "v1")
-
 @RestController
 @RequestMapping("/api/v1")
 public class RouteController {

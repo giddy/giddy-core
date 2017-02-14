@@ -9,10 +9,12 @@ import com.graphhopper.storage.Graph;
 import com.graphhopper.storage.SPTEntry;
 import com.graphhopper.util.EdgeExplorer;
 import com.graphhopper.util.EdgeIterator;
+import com.riders.giddy.commons.persistence.store.entities.StatNames;
 
 import gnu.trove.map.TIntObjectMap;
 import gnu.trove.map.hash.TIntObjectHashMap;
 
+import java.util.Map;
 import java.util.PriorityQueue;
 
 import static com.graphhopper.util.Parameters.Algorithms.ASTAR;
@@ -45,7 +47,7 @@ public class CustomAstar extends AbstractRoutingAlgorithm {
         prioQueueOpenSet = new PriorityQueue<>(1000);
     }
 
-    public Path computePathOnUserParameters(int from, int to, float[] gaugeScore, float lowerBound) {
+    public Path computePathOnUserParameters(int from, int to, Map<StatNames, Float> gaugeScore, float lowerBound) {
         weightApprox.setUserRouteParameters(gaugeScore, lowerBound);
         initCollections();
         return calcPath(from, to);

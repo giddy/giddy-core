@@ -1,7 +1,7 @@
-package com.riders.giddy;
+package com.riders.giddy.tests;
 
 import com.riders.giddy.api.v1.services.GiddyRouter;
-import com.riders.giddy.commons.persistence.store.GraphStatsStore;
+import com.riders.giddy.commons.persistence.store.GiddyScoreServiceI;
 
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -16,7 +16,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 public class BaseTest {
 
     @Spy
-    private GraphStatsStore statsStore = new MockedGraphStore();
+    private GiddyScoreServiceI statsStore = new MockedGraphStore();
 
     @InjectMocks
     GiddyRouter router;
