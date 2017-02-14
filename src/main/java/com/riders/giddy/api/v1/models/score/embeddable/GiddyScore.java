@@ -5,11 +5,13 @@ import com.riders.giddy.api.v1.models.score.StatNames;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.persistence.ElementCollection;
 import javax.persistence.Embeddable;
 
 @Embeddable
 public class GiddyScore {
 
+    @ElementCollection
     private Map<StatNames, Float> scores;
 
     public GiddyScore() {

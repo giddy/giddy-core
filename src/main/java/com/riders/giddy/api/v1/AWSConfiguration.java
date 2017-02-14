@@ -1,4 +1,4 @@
-package com.riders.giddy;
+package com.riders.giddy.api.v1;
 
 import org.springframework.context.annotation.Configuration;
 

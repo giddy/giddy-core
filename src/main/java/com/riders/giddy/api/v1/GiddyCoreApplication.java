@@ -1,4 +1,4 @@
-package com.riders.giddy;
+package com.riders.giddy.api.v1;
 
 import org.jsondoc.spring.boot.starter.EnableJSONDoc;
 import org.springframework.boot.SpringApplication;

@@ -5,6 +5,7 @@ import com.riders.giddy.api.v1.models.score.embeddable.GiddyScoreDescriptor;
 
 import org.hibernate.validator.constraints.NotBlank;
 
+import javax.persistence.Cacheable;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
@@ -13,6 +14,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
+@Cacheable
 public class GiddyEdgeScore {
 
     @Id

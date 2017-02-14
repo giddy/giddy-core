@@ -13,7 +13,6 @@ import com.riders.giddy.api.v1.services.score.GiddyScoreServiceI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
@@ -31,7 +30,7 @@ public class RouteDispatcher {
     private GiddyScoreServiceI giddyScoreService;
 
     @Autowired
-    public RouteDispatcher(GiddyRouter router, GraphUtils graphUtils, @Qualifier("persistStore") GiddyScoreServiceI giddyScoreService) {
+    public RouteDispatcher(GiddyRouter router, GraphUtils graphUtils, GiddyScoreServiceI giddyScoreService) {
         this.mapMatching = router.buildMapMatching();
         this.graphUtils = graphUtils;
         this.giddyScoreService = giddyScoreService;
