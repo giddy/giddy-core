@@ -48,7 +48,7 @@ public class GiddyScoreService implements GiddyScoreServiceI {
         long totalRecords = graphEdgeDescriptor.getTotalRecords();
         Map<StatNames, Float> stats = graphEdgeDescriptor.getStatsMap();
         for (Map.Entry<StatNames, Float> stat : stats.entrySet()) {
-            float normalisedStat = getNormalisedStat(routeDescriptor.getStatsMap().get(stat.getValue()), stat.getValue(), totalRecords);
+            float normalisedStat = getNormalisedStat(routeDescriptor.getStatsMap().get(stat.getKey()), stat.getValue(), totalRecords);
             stats.put(stat.getKey(), normalisedStat);
         }
         graphEdgeDescriptor.updateStats(stats);

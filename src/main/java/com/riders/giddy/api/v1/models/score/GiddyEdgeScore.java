@@ -3,10 +3,7 @@ package com.riders.giddy.api.v1.models.score;
 
 import com.riders.giddy.api.v1.models.score.embeddable.GiddyScoreDescriptor;
 
-import org.hibernate.validator.constraints.NotBlank;
-
 import javax.persistence.Cacheable;
-import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -21,23 +18,12 @@ public class GiddyEdgeScore {
     @GeneratedValue(strategy = GenerationType.AUTO)
     Integer id;
 
-    @Column
-    @NotBlank
     private Integer baseNodeId;
 
-    @NotBlank(message = "edgeId must not be blank!")
-    @Column
     private Integer edgeId;
 
     @Embedded
-    @NotBlank
     private GiddyScoreDescriptor giddyScore;
-
-    public GiddyEdgeScore() {
-        baseNodeId = null;
-        edgeId = null;
-        giddyScore = null;
-    }
 
 
     public GiddyEdgeScore(Integer baseNodeId, Integer edgeNodeId) {

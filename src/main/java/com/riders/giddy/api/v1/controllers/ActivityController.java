@@ -45,14 +45,14 @@ public class ActivityController {
     private RouteDispatcher routeDispatcher;
 
     @ApiMethod(description = "Save activity")
-    @RequestMapping(value = "/activities", headers = ("content-type=multipart/*"), method = RequestMethod.POST)
+    @RequestMapping(value = "/activities",
+            method = RequestMethod.POST)
     public
     @ResponseBody
     ResponseEntity saveActivity(
             @RequestParam("file") MultipartFile gpxRoute, @Valid @ModelAttribute GiddyScoreDescriptor desc) throws IOException {
 
-
-        boolean isCompleted = routeDispatcher.updateRouteDescription(multipartToFile(gpxRoute), new GiddyScoreDescriptor());
+        boolean isCompleted = routeDispatcher.updateRouteDescription(gpxRoute, new GiddyScoreDescriptor());
 
         return new ResponseEntity(isCompleted ? OK : INTERNAL_SERVER_ERROR);
     }
