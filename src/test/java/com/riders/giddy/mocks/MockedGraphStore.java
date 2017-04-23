@@ -2,6 +2,7 @@ package com.riders.giddy.mocks;
 
 import com.riders.giddy.api.v1.models.score.GiddyEdgeScore;
 import com.riders.giddy.api.v1.models.score.StatNames;
+import com.riders.giddy.api.v1.models.score.embeddable.GiddyScore;
 import com.riders.giddy.api.v1.models.score.embeddable.GiddyScoreDescriptor;
 import com.riders.giddy.api.v1.services.score.GiddyScoreServiceI;
 
@@ -17,7 +18,7 @@ public class MockedGraphStore implements GiddyScoreServiceI {
     private Random generator = new Random();
 
     @Override
-    public GiddyEdgeScore updateEdgeDescriptor(int edgeId, int baseId, GiddyScoreDescriptor routeDescriptor) {
+    public GiddyEdgeScore updateEdgeDescriptor(int edgeId, int baseId, GiddyScore routeDescriptor) {
         return null;
     }
 
@@ -33,7 +34,7 @@ public class MockedGraphStore implements GiddyScoreServiceI {
     }
 
     @Override
-    public void addStats(GiddyScoreDescriptor routeDescriptor, GiddyScoreDescriptor graphEdgeDescriptor) {
+    public void addStats(GiddyScore routeDescriptor, GiddyScoreDescriptor graphEdgeDescriptor) {
 
     }
 

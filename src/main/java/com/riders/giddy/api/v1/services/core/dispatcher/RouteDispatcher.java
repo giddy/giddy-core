@@ -6,7 +6,7 @@ import com.graphhopper.matching.MapMatching;
 import com.graphhopper.matching.MatchResult;
 import com.graphhopper.storage.index.LocationIndexTree;
 import com.graphhopper.util.GPXEntry;
-import com.riders.giddy.api.v1.models.score.embeddable.GiddyScoreDescriptor;
+import com.riders.giddy.api.v1.models.score.embeddable.GiddyScore;
 import com.riders.giddy.api.v1.services.core.GiddyRouter;
 import com.riders.giddy.api.v1.services.core.GraphUtils;
 import com.riders.giddy.api.v1.services.score.GiddyScoreServiceI;
@@ -43,7 +43,7 @@ public class RouteDispatcher {
         this.giddyScoreService = giddyScoreService;
     }
 
-    public synchronized boolean updateRouteDescription(MultipartFile gpxRoute, GiddyScoreDescriptor scoreDescriptor) throws IOException {
+    public synchronized boolean updateRouteDescription(MultipartFile gpxRoute, GiddyScore scoreDescriptor) throws IOException {
         File tempFile = new File("temp");
         byte[] content = gpxRoute.getBytes();
         BufferedOutputStream stream = new BufferedOutputStream(

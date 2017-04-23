@@ -2,6 +2,7 @@ package com.riders.giddy.api.v1.services.score;
 
 import com.riders.giddy.api.v1.models.score.GiddyEdgeScore;
 import com.riders.giddy.api.v1.models.score.StatNames;
+import com.riders.giddy.api.v1.models.score.embeddable.GiddyScore;
 import com.riders.giddy.api.v1.models.score.embeddable.GiddyScoreDescriptor;
 import com.sun.istack.internal.Nullable;
 
@@ -25,7 +26,7 @@ public class GiddyScoreService implements GiddyScoreServiceI {
     }
 
     @Override
-    public GiddyEdgeScore updateEdgeDescriptor(int edgeId, int baseId, GiddyScoreDescriptor routeDescriptor) {
+    public GiddyEdgeScore updateEdgeDescriptor(int edgeId, int baseId, GiddyScore routeDescriptor) {
         GiddyEdgeScore edgeScore = repository.findByBaseNodeId(baseId);
         if (edgeScore == null) {
             edgeScore = new GiddyEdgeScore(baseId, edgeId);
@@ -44,11 +45,11 @@ public class GiddyScoreService implements GiddyScoreServiceI {
     }
 
     @Override
-    public void addStats(GiddyScoreDescriptor routeDescriptor, GiddyScoreDescriptor graphEdgeDescriptor) {
+    public void addStats(GiddyScore routeDescriptor, GiddyScoreDescriptor graphEdgeDescriptor) {
         long totalRecords = graphEdgeDescriptor.getTotalRecords();
         Map<StatNames, Float> stats = graphEdgeDescriptor.getStatsMap();
         for (Map.Entry<StatNames, Float> stat : stats.entrySet()) {
-            float normalisedStat = getNormalisedStat(routeDescriptor.getStatsMap().get(stat.getKey()), stat.getValue(), totalRecords);
+            float normalisedStat = getNormalisedStat(routeDescriptor.get(stat.getKey()), stat.getValue(), totalRecords);
             stats.put(stat.getKey(), normalisedStat);
         }
         graphEdgeDescriptor.updateStats(stats);

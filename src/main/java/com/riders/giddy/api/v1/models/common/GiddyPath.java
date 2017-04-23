@@ -38,7 +38,7 @@ public class GiddyPath {
     public String toString() {
         String resp = "";
         for (GiddyPoint point : path) {
-            resp += point.toString() + ", ";
+            resp += point.toString() + "\r\n";
         }
         return "GiddyPath{" +
                 resp

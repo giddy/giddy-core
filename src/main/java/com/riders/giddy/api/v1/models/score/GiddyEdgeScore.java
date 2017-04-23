@@ -25,6 +25,11 @@ public class GiddyEdgeScore {
     @Embedded
     private GiddyScoreDescriptor giddyScore;
 
+    private GiddyEdgeScore() {
+        baseNodeId = 0;
+        edgeId = 0;
+        giddyScore = new GiddyScoreDescriptor();
+    }
 
     public GiddyEdgeScore(Integer baseNodeId, Integer edgeNodeId) {
         this.baseNodeId = baseNodeId;

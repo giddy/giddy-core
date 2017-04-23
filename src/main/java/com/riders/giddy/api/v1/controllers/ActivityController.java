@@ -1,6 +1,6 @@
 package com.riders.giddy.api.v1.controllers;
 
-import com.riders.giddy.api.v1.models.score.embeddable.GiddyScoreDescriptor;
+import com.riders.giddy.api.v1.models.score.embeddable.GiddyScore;
 import com.riders.giddy.api.v1.services.core.dispatcher.RouteDispatcher;
 import com.riders.giddy.api.v1.services.core.utils.ValidationError;
 import com.riders.giddy.api.v1.services.core.utils.ValidationErrorBuilder;
@@ -12,11 +12,11 @@ import org.jsondoc.core.annotation.ApiVersion;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -25,8 +25,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
-
-import javax.validation.Valid;
+import java.util.Map;
 
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 import static org.springframework.http.HttpStatus.OK;
@@ -45,14 +44,13 @@ public class ActivityController {
     private RouteDispatcher routeDispatcher;
 
     @ApiMethod(description = "Save activity")
-    @RequestMapping(value = "/activities",
-            method = RequestMethod.POST)
+    @PostMapping(value = "/activities")
     public
     @ResponseBody
     ResponseEntity saveActivity(
-            @RequestParam("file") MultipartFile gpxRoute, @Valid @ModelAttribute GiddyScoreDescriptor desc) throws IOException {
+            @RequestParam("file") MultipartFile gpxRoute, @RequestParam Map<String, Float> params, ModelMap model) throws IOException {
 
-        boolean isCompleted = routeDispatcher.updateRouteDescription(gpxRoute, new GiddyScoreDescriptor());
+        boolean isCompleted = routeDispatcher.updateRouteDescription(gpxRoute, new GiddyScore(params));
 
         return new ResponseEntity(isCompleted ? OK : INTERNAL_SERVER_ERROR);
     }
