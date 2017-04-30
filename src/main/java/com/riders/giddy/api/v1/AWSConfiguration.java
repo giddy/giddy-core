@@ -1,10 +1,11 @@
-package com.riders.giddy;
+package com.riders.giddy.api.v1;
 
 import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.regions.Region;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3Client;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,8 +13,8 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class AWSConfiguration {
 
-	@Value("${cloud.aws.credentials.accessKey}")
-	private String accessKey;
+    @Value("${cloud.aws.credentials.accessKey}")
+    private String accessKey;
 
 	@Value("${cloud.aws.credentials.secretKey}")
 	private String secretKey;
@@ -31,5 +32,5 @@ public class AWSConfiguration {
 		AmazonS3Client amazonS3Client = new AmazonS3Client(awsCredentials);
 		amazonS3Client.setRegion(Region.getRegion(Regions.fromName(region)));
 		return amazonS3Client;
-	}
+    }
 }

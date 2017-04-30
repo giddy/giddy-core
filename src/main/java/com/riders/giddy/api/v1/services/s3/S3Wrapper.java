@@ -1,8 +1,14 @@
 package com.riders.giddy.api.v1.services.s3;
 
 import com.amazonaws.services.s3.AmazonS3Client;
-import com.amazonaws.services.s3.model.*;
-import org.apache.commons.io.IOUtils;
+import com.amazonaws.services.s3.model.GetObjectRequest;
+import com.amazonaws.services.s3.model.ListObjectsRequest;
+import com.amazonaws.services.s3.model.ObjectListing;
+import com.amazonaws.services.s3.model.S3Object;
+import com.amazonaws.services.s3.model.S3ObjectInputStream;
+import com.amazonaws.services.s3.model.S3ObjectSummary;
+import com.amazonaws.util.IOUtils;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
@@ -10,23 +16,15 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.UUID;
 
 @Service
 public class S3Wrapper {
 
-	@Autowired
+    @Autowired
 	private AmazonS3Client amazonS3Client;
 
 	@Value("${cloud.aws.s3.bucket}")
@@ -34,39 +32,6 @@ public class S3Wrapper {
 
 	@Value("${cloud.aws.s3.default_path}")
 	private String defaultPath;
-
-	private PutObjectResult upload(String filePath, String uploadKey) throws FileNotFoundException {
-		return upload(new FileInputStream(filePath), uploadKey);
-	}
-
-	private PutObjectResult upload(InputStream inputStream, String uploadKey) {
-		PutObjectRequest putObjectRequest = new PutObjectRequest(bucket, uploadKey, inputStream, new ObjectMetadata());
-
-		putObjectRequest.setCannedAcl(CannedAccessControlList.PublicRead);
-
-		PutObjectResult putObjectResult = amazonS3Client.putObject(putObjectRequest);
-
-		IOUtils.closeQuietly(inputStream);
-
-		return putObjectResult;
-	}
-
-	public List<PutObjectResult> upload(MultipartFile multipartFile, Integer activityId) {
-		List<PutObjectResult> putObjectResults = new ArrayList<>();
-
-		if(!StringUtils.isEmpty(multipartFile.getOriginalFilename())) {
-			try {
-				putObjectResults.add(upload(multipartFile.getInputStream(),
-						this.defaultPath
-								.concat(activityId.toString() + '-')
-								.concat(multipartFile.getOriginalFilename())));
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-
-		return putObjectResults;
-	}
 
 	public ResponseEntity<byte[]> download(String key) throws IOException {
 		GetObjectRequest getObjectRequest = new GetObjectRequest(bucket, key);
@@ -90,8 +55,6 @@ public class S3Wrapper {
 	public List<S3ObjectSummary> list() {
 		ObjectListing objectListing = amazonS3Client.listObjects(new ListObjectsRequest().withBucketName(bucket));
 
-		List<S3ObjectSummary> s3ObjectSummaries = objectListing.getObjectSummaries();
-
-		return s3ObjectSummaries;
-	}
+        return objectListing.getObjectSummaries();
+    }
 }

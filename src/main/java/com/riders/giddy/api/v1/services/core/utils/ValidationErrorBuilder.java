@@ -1,4 +1,4 @@
-package com.riders.giddy.api.v1.utils;
+package com.riders.giddy.api.v1.services.core.utils;
 
 import org.springframework.validation.Errors;
 import org.springframework.validation.ObjectError;

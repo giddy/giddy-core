@@ -4,6 +4,7 @@ buildscript {
     }
     repositories {
         mavenCentral()
+        jcenter()
     }
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
@@ -11,7 +12,7 @@ buildscript {
     }
 }
 
-group = 'robikovacs'
+group = 'giddy'
 
 apply plugin: 'java'
 apply plugin: 'eclipse'
@@ -39,9 +40,15 @@ springBoot {
     executable = true
 }
 
+configurations {
+    all*.exclude module: 'spring-boot-starter-logging'
+}
+
 dependencies {
     compile('org.springframework.boot:spring-boot-starter-web')
     compile('org.springframework.boot:spring-boot-starter-data-jpa')
+    // https://mvnrepository.com/artifact/org.springframework.data/spring-data-jpa
+    compile group: 'org.springframework.data', name: 'spring-data-jpa', version: '1.0.0.RELEASE'
 
     compile group: 'org.jsondoc', name: 'spring-boot-starter-jsondoc', version: '1.2.16'
     compile group: 'org.jsondoc', name: 'jsondoc-ui-webjar', version: '1.2.16'
@@ -49,14 +56,26 @@ dependencies {
     compile(group: 'com.graphhopper', name: 'graphhopper', version: '0.7.0') {
         exclude group: 'org.slf4j'
     }
+    // https://mvnrepository.com/artifact/com.graphhopper/map-matching
+    compile group: 'com.graphhopper', name: 'map-matching', version: '0.7.0'
+
+    // https://mvnrepository.com/artifact/org.apache.commons/commons-math3
+    compile group: 'org.apache.commons', name: 'commons-math3', version: '3.0'
+
 
     compile("org.springframework.cloud:spring-cloud-aws-context:1.0.2.RELEASE")
     compile("commons-io:commons-io:2.4")
 
     compile group: 'org.springframework.data', name: 'spring-data-jpa', version: '1.10.5.RELEASE'
-    compile group: 'postgresql', name: 'postgresql', version: '9.1-901-1.jdbc4'
+    compile(group: 'postgresql', name: 'postgresql', version: '9.1-901-1.jdbc4') {
+        exclude group: 'org.slf4j'
+        exclude group: 'org.log4j'
+    }
 
     testCompile('org.springframework.boot:spring-boot-starter-test')
+    testCompile("org.mockito:mockito-core:1.+")
+    testCompile(group: 'com.h2database', name: 'h2', version: '1.3.148')
+
 }
 
 task downloadMap(type:Exec) {
